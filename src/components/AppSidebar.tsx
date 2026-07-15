@@ -14,6 +14,7 @@ import {
   FileSpreadsheet,
   CheckSquare,
   CalendarDays,
+  ExternalLink,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -57,13 +58,27 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
-        <NavLink to="/" className="flex items-center gap-2">
-          <AIALogo className="h-7 w-7" />
-          <span className="text-lg font-bold tracking-tight text-sidebar-foreground">
-            AI Advantage
-          </span>
+      <SidebarHeader className="p-4 space-y-3">
+        <NavLink to="/dashboard" className="flex items-center gap-2.5">
+          <AIALogo className="h-8 w-8" />
+          <div className="flex flex-col leading-tight">
+            <span className="text-[15px] font-bold tracking-tight text-sidebar-foreground">
+              AI Advantage
+            </span>
+            <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-primary">
+              CRM
+            </span>
+          </div>
         </NavLink>
+        <a
+          href="https://aiadvantage.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] text-sidebar-foreground/60 hover:text-primary transition-colors"
+        >
+          <span>aiadvantage.com</span>
+          <ExternalLink className="h-3 w-3" />
+        </a>
       </SidebarHeader>
 
       <SidebarContent>
