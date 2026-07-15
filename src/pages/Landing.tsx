@@ -103,6 +103,21 @@ export default function Landing() {
         </div>
       </nav>
 
+      {/* ─── AGENTHUB MODULARITY STRIP ─── */}
+      <div className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-12 lg:px-20">
+        <div className="mx-auto max-w-5xl rounded-xl border border-[#B8A268]/20 bg-[#0a0906]/90 backdrop-blur-md px-5 py-3 shadow-[0_0_40px_rgba(184,162,104,0.08)]">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#B8A268]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#D4BE84]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D4BE84] animate-pulse" />
+              AgentHub Modularity
+            </span>
+            <p className="text-sm text-white/70">
+              Run this CRM standalone — or plug it into your AgentHub for one connected advantage.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* ─── HERO ─── */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <img
@@ -114,7 +129,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0906]/70 via-[#0a0906]/50 to-[#0a0906]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(184,162,104,0.15),transparent_60%)]" />
 
-        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20 pt-32 pb-24">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20 pt-44 pb-24">
           <div className="max-w-5xl mx-auto text-center">
             <div className="flex justify-center mb-8">
               <GoldPill>The AI Advantage CRM</GoldPill>
