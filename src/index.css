@@ -15,10 +15,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 170 15% 12%;
 
-    --primary: 14 98% 60%;
+    --primary: 42 32% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --brand-orange: 14 98% 60%;
+    --brand-orange: 42 32% 54%;
     --brand-orange-foreground: 0 0% 100%;
 
     --secondary: 170 22% 95%;
@@ -35,7 +35,7 @@
 
     --border: 170 10% 89%;
     --input: 170 10% 89%;
-    --ring: 14 98% 60%;
+    --ring: 42 32% 54%;
 
     --radius: 0.625rem;
 
@@ -48,7 +48,7 @@
     /* Pipeline stage colors */
     --stage-prospect: 210 70% 55%;
     --stage-qualified: 262 60% 55%;
-    --stage-proposal: 14 98% 60%;
+    --stage-proposal: 42 32% 54%;
     --stage-negotiation: 40 85% 52%;
     --stage-won: 170 50% 45%;
     --stage-lost: 0 65% 50%;
@@ -56,12 +56,12 @@
     /* Sidebar — mint surface with dark text */
     --sidebar-background: 170 25% 94%;
     --sidebar-foreground: 170 15% 12%;
-    --sidebar-primary: 14 98% 60%;
+    --sidebar-primary: 42 32% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 170 20% 88%;
     --sidebar-accent-foreground: 170 15% 12%;
     --sidebar-border: 170 15% 88%;
-    --sidebar-ring: 14 98% 60%;
+    --sidebar-ring: 42 32% 54%;
   }
 
   .dark {
