@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap, Target, TrendingUp, Sparkles, Users, Rocket } from "lucide-react";
+import { ArrowRight, Zap, Target, TrendingUp, Sparkles, Users, Rocket, X } from "lucide-react";
 import aiaBgDark from "@/assets/aia-bg-dark.png.asset.json";
 import aiaBgWarm from "@/assets/aia-bg-dark-warm.png.asset.json";
 import aiaBgLight from "@/assets/aia-bg-light.png.asset.json";
