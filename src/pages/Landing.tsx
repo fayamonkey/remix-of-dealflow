@@ -10,7 +10,7 @@ import avatarAR from "@/assets/avatar-ar.png.asset.json";
 import avatarKL from "@/assets/avatar-kl.png.asset.json";
 import avatarMJ from "@/assets/avatar-mj.png.asset.json";
 
-import { DMark } from "@/components/DMark";
+import { AIALogo } from "@/components/AIALogo";
 
 function FadedGrid({ className = "" }: { className?: string }) {
   return (
