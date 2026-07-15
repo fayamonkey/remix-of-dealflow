@@ -14,6 +14,7 @@ import {
   FileSpreadsheet,
   CheckSquare,
   CalendarDays,
+  ExternalLink,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
