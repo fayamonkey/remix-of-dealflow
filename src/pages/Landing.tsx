@@ -60,6 +60,7 @@ const PRINCIPLES = [
 export default function Landing() {
   const { session, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
+  const [showAgentHubBar, setShowAgentHubBar] = useState(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
