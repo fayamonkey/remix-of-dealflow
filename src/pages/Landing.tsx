@@ -460,13 +460,16 @@ export default function Landing() {
 
       {/* ─── Final CTA ─── */}
       <section className="relative bg-foreground overflow-hidden rounded-t-[2rem] -mt-8 z-[4]">
+        <img src={aiaBgWarm.url} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/60 to-foreground/90" />
         <div className="relative z-10 px-6 md:px-12 lg:px-20 py-20 md:py-28">
           <div className="max-w-3xl mx-auto text-center">
+            <img src={aiaIconGlow.url} alt="" aria-hidden className="h-14 w-14 mx-auto mb-6 drop-shadow-[0_0_30px_rgba(184,162,104,0.5)]" />
             <h2 className="font-sans text-3xl md:text-5xl font-bold tracking-tight mb-5 text-background text-balance">
-              Your pipeline deserves better than a spreadsheet.
+              Your CRM. The AI Advantage way.
             </h2>
-            <p className="text-background/60 text-lg mb-10 max-w-xl mx-auto text-balance">
-              Free for small teams. Ready in minutes. No procurement process required.
+            <p className="text-background/70 text-lg mb-10 max-w-xl mx-auto text-balance">
+              Remix this template, make it yours, and ship it in an afternoon. Part of the growing AI Advantage app collection.
             </p>
             <Link to="/auth">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-base font-semibold px-10 h-12">
@@ -481,11 +484,13 @@ export default function Landing() {
       {/* Footer */}
       <footer className="bg-foreground border-t border-background/10 px-6 md:px-12 lg:px-20 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <AIALogo className="h-6 w-6" />
-            <span className="font-bold text-sm tracking-tight text-background">AI Advantage</span>
+            <img src={aiaLogoWhite.url} alt="AI Advantage" className="h-4" />
+            <span className="ml-2 text-[10px] font-semibold uppercase tracking-wider text-background/50">CRM</span>
           </div>
           <div className="flex gap-8 text-sm text-background/50">
+            <a href="https://aiadvantage.com" target="_blank" rel="noreferrer" className="hover:text-background transition-colors">aiadvantage.com</a>
             <Link to="/auth" className="hover:text-background transition-colors">Sign in</Link>
             <a href="mailto:hello@aiadvantage.com" className="hover:text-background transition-colors">Contact</a>
           </div>
