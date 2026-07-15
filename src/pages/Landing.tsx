@@ -3,12 +3,14 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
-import logoDiamond from "@/assets/logo-diamond.png";
-import heroDealImg from "@/assets/hero-deal.jpg";
 import jamieAvatar from "@/assets/jamie-avatar.jpg";
 import avatarAR from "@/assets/avatar-ar.png.asset.json";
 import avatarKL from "@/assets/avatar-kl.png.asset.json";
 import avatarMJ from "@/assets/avatar-mj.png.asset.json";
+import aiaBgDark from "@/assets/aia-bg-dark.png.asset.json";
+import aiaBgWarm from "@/assets/aia-bg-dark-warm.png.asset.json";
+import aiaLogoWhite from "@/assets/aia-logo-white.png.asset.json";
+import aiaIconGlow from "@/assets/aia-icon-glow.png.asset.json";
 
 import { AIALogo } from "@/components/AIALogo";
 
