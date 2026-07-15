@@ -162,7 +162,7 @@ function StackedNotifications() {
 
 export default function Landing() {
   const { session, loading } = useAuth();
-  const logo = logoDiamond;
+  
   
   const [showNav, setShowNav] = useState(false);
 
