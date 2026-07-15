@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowRight, BarChart3, Users, Zap } from "lucide-react";
 import { z } from "zod";
 import { sanitizeErrorMessage } from "@/lib/sanitize";
-import { DMark } from "@/components/DMark";
+import { AIALogo } from "@/components/AIALogo";
 import { lovable } from "@/integrations/lovable/index";
 import { Separator } from "@/components/ui/separator";
 
@@ -141,23 +141,23 @@ export default function Auth() {
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <div className="flex items-center gap-2">
-            <DMark className="h-9 w-9" />
-            <span className="font-bold text-xl tracking-tight">Dealflow</span>
+            <AIALogo className="h-9 w-9" />
+            <span className="font-bold text-xl tracking-tight">AI Advantage</span>
           </div>
 
           <div className="space-y-6">
             <h1 className={`text-5xl lg:text-6xl font-bold leading-[1.08] ${textColor}`}>
-              Close more deals,<br />
-              less chaos.
+              Your unfair<br />
+              advantage.
             </h1>
             <p className={`text-lg max-w-md leading-relaxed ${subtextColor}`}>
-              The visual CRM that your sales team will actually love using.
-              Drag, drop, and close.
+              The AI-native CRM template built for the AI Advantage community.
+              Ship faster. Sell smarter.
             </p>
           </div>
 
           <p className={`text-sm ${footerColor}`}>
-            © 2026 Dealflow. Built for modern sales teams.
+            © {new Date().getFullYear()} AI Advantage. Built for the community.
           </p>
         </div>
       </div>

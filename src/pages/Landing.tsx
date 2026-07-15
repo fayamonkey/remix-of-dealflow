@@ -10,7 +10,7 @@ import avatarAR from "@/assets/avatar-ar.png.asset.json";
 import avatarKL from "@/assets/avatar-kl.png.asset.json";
 import avatarMJ from "@/assets/avatar-mj.png.asset.json";
 
-import { DMark } from "@/components/DMark";
+import { AIALogo } from "@/components/AIALogo";
 
 function FadedGrid({ className = "" }: { className?: string }) {
   return (
@@ -178,9 +178,9 @@ export default function Landing() {
       {/* Nav — appears on scroll */}
       <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 lg:px-20 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300 ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
         <div className="flex items-center gap-1.5">
-          <DMark className="h-7 w-7 text-foreground" />
+          <AIALogo className="h-7 w-7" />
           <span className="font-bold text-lg tracking-tight text-foreground">
-            Dealflow
+            AI Advantage
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -205,14 +205,14 @@ export default function Landing() {
             {/* Left — Copy */}
             <div>
               <div className="flex items-center gap-2 mb-6">
-                <DMark className="h-9 w-9 text-foreground" />
-                <span className="font-bold text-xl tracking-tight text-foreground">Dealflow</span>
+                <AIALogo className="h-9 w-9" />
+                <span className="font-bold text-xl tracking-tight text-foreground">AI Advantage</span>
               </div>
               <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] mb-6 text-balance">
-                Close more deals<br />with less busywork
+                Your unfair advantage,<br />built with AI
               </h1>
               <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-                Dealflow is a single-tenant CRM your team will actually use. Track deals, forecast revenue, and spend time selling — not filling out fields.
+                The AI Advantage template — a production-ready CRM you can remix, brand, and ship. Track deals, forecast revenue, and let AI handle the busywork.
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link to="/auth">
@@ -428,7 +428,7 @@ export default function Landing() {
                     </svg>
                   </div>
                   <p className="text-lg text-foreground leading-relaxed mb-8 text-balance">
-                    We tried three CRMs before Dealflow. This is the first one my reps didn't abandon by week two.
+                    We tried three CRMs before AI Advantage. This is the first one my reps didn't abandon by week two.
                   </p>
                   <div className="flex items-center gap-3">
                     <img src={jamieAvatar} alt="Jamie Reeves" className="h-10 w-10 rounded-full object-cover" />
@@ -468,14 +468,14 @@ export default function Landing() {
       <footer className="bg-foreground border-t border-background/10 px-6 md:px-12 lg:px-20 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8">
           <div className="flex items-center gap-1.5">
-            <DMark className="h-6 w-6 text-background" />
-            <span className="font-bold text-sm tracking-tight text-background">Dealflow</span>
+            <AIALogo className="h-6 w-6" />
+            <span className="font-bold text-sm tracking-tight text-background">AI Advantage</span>
           </div>
           <div className="flex gap-8 text-sm text-background/50">
             <Link to="/auth" className="hover:text-background transition-colors">Sign in</Link>
-            <a href="mailto:hello@dealflow.com" className="hover:text-background transition-colors">Contact</a>
+            <a href="mailto:hello@aiadvantage.com" className="hover:text-background transition-colors">Contact</a>
           </div>
-          <p className="text-xs text-background/40">© {new Date().getFullYear()} Dealflow</p>
+          <p className="text-xs text-background/40">© {new Date().getFullYear()} AI Advantage</p>
         </div>
       </footer>
     </div>

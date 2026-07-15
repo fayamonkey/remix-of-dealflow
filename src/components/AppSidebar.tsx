@@ -28,7 +28,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
-import { DMark } from "@/components/DMark";
+import { AIALogo } from "@/components/AIALogo";
 
 const mainNav = [
   { title: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
@@ -59,9 +59,9 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="p-4">
         <NavLink to="/" className="flex items-center gap-2">
-          <DMark className="h-7 w-7 text-sidebar-foreground" />
+          <AIALogo className="h-7 w-7" />
           <span className="text-lg font-bold tracking-tight text-sidebar-foreground">
-            Dealflow
+            AI Advantage
           </span>
         </NavLink>
       </SidebarHeader>
