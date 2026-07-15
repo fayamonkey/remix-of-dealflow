@@ -428,7 +428,7 @@ export default function Landing() {
                     </svg>
                   </div>
                   <p className="text-lg text-foreground leading-relaxed mb-8 text-balance">
-                    We tried three CRMs before Dealflow. This is the first one my reps didn't abandon by week two.
+                    We tried three CRMs before AI Advantage. This is the first one my reps didn't abandon by week two.
                   </p>
                   <div className="flex items-center gap-3">
                     <img src={jamieAvatar} alt="Jamie Reeves" className="h-10 w-10 rounded-full object-cover" />
