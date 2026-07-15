@@ -129,7 +129,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0906]/70 via-[#0a0906]/50 to-[#0a0906]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(184,162,104,0.15),transparent_60%)]" />
 
-        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20 pt-32 pb-24">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20 pt-44 pb-24">
           <div className="max-w-5xl mx-auto text-center">
             <div className="flex justify-center mb-8">
               <GoldPill>The AI Advantage CRM</GoldPill>
