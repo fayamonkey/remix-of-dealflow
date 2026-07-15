@@ -209,30 +209,43 @@ export default function Landing() {
               <div className="flex items-center gap-2 mb-6">
                 <AIALogo className="h-9 w-9" />
                 <span className="font-bold text-xl tracking-tight text-foreground">AI Advantage</span>
+                <span className="ml-2 inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">CRM</span>
+              </div>
+              <div className="mb-5">
+                <Pill>Built for the AI Advantage community</Pill>
               </div>
               <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] mb-6 text-balance">
-                Your unfair advantage,<br />built with AI
+                Your personal CRM,<br />the AI Advantage way.
               </h1>
               <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-                The AI Advantage template — a production-ready CRM you can remix, brand, and ship. Track deals, forecast revenue, and let AI handle the busywork.
+                A production-ready CRM template we built for our students. Remix it, brand it, and ship it — then plug it into the rest of your AI Advantage stack.
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link to="/auth">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-base font-semibold px-8 h-12">
-                    Get started free
+                    Get your CRM
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </Link>
-                
+                <a href="https://aiadvantage.com" target="_blank" rel="noreferrer">
+                  <Button size="lg" variant="ghost" className="rounded-full text-base font-semibold px-6 h-12 text-foreground hover:bg-foreground/5">
+                    Visit aiadvantage.com
+                  </Button>
+                </a>
               </div>
             </div>
 
-            {/* Right — Hero image with deal UI overlay */}
+            {/* Right — On-brand dark showcase */}
             <div className="relative">
-              <div className="rounded-2xl aspect-[4/3] overflow-hidden relative">
-                <img src={heroDealImg} alt="Two professionals closing a deal" className="w-full h-full object-cover" />
-                {/* Gradient overlay for contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
+              <div className="rounded-2xl aspect-[4/3] overflow-hidden relative bg-neutral-900">
+                <img src={aiaBgDark.url} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                {/* Centered wordmark + glowing icon */}
+                <div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-5 px-8 text-center">
+                  <img src={aiaIconGlow.url} alt="AI Advantage" className="h-20 w-20 md:h-24 md:w-24 drop-shadow-[0_0_40px_rgba(184,162,104,0.55)]" />
+                  <img src={aiaLogoWhite.url} alt="AI Advantage" className="h-6 md:h-7 opacity-95" />
+                  <p className="text-white/70 text-xs md:text-sm tracking-[0.2em] uppercase">Your unfair advantage</p>
+                </div>
               </div>
               {/* Floating stacked notifications — bottom right */}
               <div className="absolute -bottom-6 -right-4 hidden md:block">
@@ -240,7 +253,6 @@ export default function Landing() {
               </div>
               {/* Pipeline value card — top left */}
               <div className="absolute -top-3 -left-3 rounded-2xl border border-border bg-card shadow-lg p-4 pb-4 hidden md:block w-[216px]">
-                {/* Mini sparkline chart — smooth curves */}
                 <svg viewBox="0 0 160 52" className="w-full h-12 mb-2">
                   <defs>
                     <linearGradient id="pipe-grad" x1="0" y1="0" x2="0" y2="1">
