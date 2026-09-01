@@ -34,6 +34,8 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
 import { AIALogo } from "@/components/AIALogo";
+import { GolemDirkLogo } from "@/components/GolemDirkLogo";
+
 
 const mainNav = [
   { title: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
