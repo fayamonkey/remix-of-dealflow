@@ -234,7 +234,12 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
                     <Trash2 className="h-4 w-4 text-muted-foreground" />
                   </Button>
                 </div>
-                {openSession === s.id && <AttendanceList session={s} runId={run.id} />}
+                {openSession === s.id && (
+                  <>
+                    <SessionEditor session={s} />
+                    <AttendanceList session={s} runId={run.id} />
+                  </>
+                )}
               </div>
             )) : <p className="text-sm text-muted-foreground">Noch keine Termine.</p>}
 
