@@ -109,7 +109,12 @@ export default function Landing() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <a href="https://aiadvantage.com" target="_blank" rel="noreferrer" className="hidden md:block">
+          <a href="https://ai-company.ai" target="_blank" rel="noreferrer" className="hidden md:block">
+            <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/5">
+              AI Company
+            </Button>
+          </a>
+          <a href="https://aiadvantage.com" target="_blank" rel="noreferrer" className="hidden lg:block">
             <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/5">
               aiadvantage.com
             </Button>
