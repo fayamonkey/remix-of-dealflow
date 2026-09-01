@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap, Target, TrendingUp, Sparkles, Users, Rocket, X } from "lucide-react";
+import { ArrowRight, Zap, Target, TrendingUp, Sparkles, Users, Rocket, X, Check } from "lucide-react";
 import aiaBgDark from "@/assets/aia-bg-dark.png.asset.json";
 import aiaBgWarm from "@/assets/aia-bg-dark-warm.png.asset.json";
 import aiaBgLight from "@/assets/aia-bg-light.png.asset.json";
@@ -17,6 +17,29 @@ function GoldPill({ children }: { children: React.ReactNode }) {
     </span>
   );
 }
+
+const TEAM = [
+  { name: "Minho", role: "Sales & CRM", active: true },
+  { name: "Amina", role: "Research & Strategy" },
+  { name: "Rafael", role: "Content & Editorial" },
+  { name: "Camila", role: "Web & Digital Presence" },
+  { name: "Nora", role: "Operations" },
+  { name: "Jonas", role: "Finance & Commercial" },
+];
+
+const FLOW = [
+  { t: "Say what needs doing.", b: "A voice message, a photo, a document. No prompt engineering required." },
+  { t: "Mira takes care of it.", b: "She organises the right specialists behind the scenes — Minho updates the pipeline here." },
+  { t: "You decide.", b: "Work comes back finished or ready for your approval. The score stays in your CRM." },
+];
+
+const STARTER_KITS = [
+  { t: "Tradespeople", b: "Your digital job office. Finish when the job is done — not the paperwork." },
+  { t: "Site Managers", b: "Your digital site office. Leave the site with the day already documented." },
+  { t: "Business Owners", b: "Your digital execution office. Decide, and the work begins." },
+  { t: "Truck Operators", b: "Your digital dispatch office. One truck, a whole company behind it." },
+  { t: "Location Managers", b: "Your digital operations office. Operations today, growth tomorrow." },
+];
 
 const MANIFESTO = [
   { k: "Decide", v: "The best sales tool in the world can't save an undecided mind. Decide to win first — the CRM is just where you keep score." },
@@ -86,7 +109,12 @@ export default function Landing() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <a href="https://aiadvantage.com" target="_blank" rel="noreferrer" className="hidden md:block">
+          <a href="https://ai-company.ai" target="_blank" rel="noreferrer" className="hidden md:block">
+            <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/5">
+              AI Company
+            </Button>
+          </a>
+          <a href="https://aiadvantage.com" target="_blank" rel="noreferrer" className="hidden lg:block">
             <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/5">
               aiadvantage.com
             </Button>
@@ -121,7 +149,7 @@ export default function Landing() {
                 AgentHub Modularity
               </span>
               <p className="text-sm text-white/70">
-                Run this CRM standalone — or plug it into your AgentHub for one connected advantage.
+                Run this CRM standalone — or hand it to Mira, your AI CEO, and it becomes your sales department.
               </p>
             </div>
           </div>
@@ -262,7 +290,128 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ─── INSIDE YOUR AI COMPANY ─── */}
+      <section className="relative py-28 md:py-36 border-t border-white/5 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(184,162,104,0.08),transparent_65%)]" />
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+          <div className="max-w-3xl mb-16">
+            <GoldPill>Inside your AI Company</GoldPill>
+            <h2 className="font-sans text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mt-6 text-balance">
+              You don't manage tools.<br />
+              <span className="bg-gradient-to-r from-[#D4BE84] to-[#B8A268] bg-clip-text text-transparent italic">
+                You talk to Mira.
+              </span>
+            </h2>
+            <p className="mt-6 text-lg text-white/60 leading-relaxed max-w-2xl">
+              Your AI CEO understands what needs doing, assembles the smallest team that fits, and brings
+              finished work back to you. This CRM is where her sales team keeps score — standalone today,
+              connected the moment you want it.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-6 items-stretch">
+            {/* Org card */}
+            <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-7 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+                  Your AI Company
+                </span>
+                <span className="rounded-full bg-[#B8A268]/10 px-2.5 py-1 text-[10px] font-semibold text-[#D4BE84]">
+                  CRM seat filled
+                </span>
+              </div>
+
+              <div className="rounded-2xl border border-[#B8A268]/30 bg-[#B8A268]/[0.06] p-5 mb-4">
+                <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#D4BE84] mb-1">
+                  Your CEO
+                </div>
+                <div className="font-sans text-xl font-bold">Mira</div>
+                <p className="text-sm text-white/50 mt-1">Organises your team. You keep every decision.</p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3">
+                {TEAM.map((t) => (
+                  <div
+                    key={t.name}
+                    className={`rounded-2xl border p-4 transition-colors ${
+                      t.active
+                        ? "border-[#B8A268]/40 bg-[#B8A268]/[0.08]"
+                        : "border-white/10 bg-white/[0.02] hover:border-white/20"
+                    }`}
+                  >
+                    <div className="font-sans text-base font-bold">{t.name}</div>
+                    <div className="text-[13px] text-white/50">{t.role}</div>
+                    {t.active && (
+                      <div className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#D4BE84]">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#D4BE84] animate-pulse" />
+                        Runs on this CRM
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* How it works */}
+            <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-7 backdrop-blur-sm flex flex-col">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40 mb-6">
+                How it works
+              </span>
+              <div className="space-y-6 flex-1">
+                {FLOW.map((f, i) => (
+                  <div key={f.t} className="flex gap-4">
+                    <div className="shrink-0 font-sans text-3xl font-bold text-[#B8A268]/25 leading-none w-8">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-lg font-bold">{f.t}</h3>
+                      <p className="text-white/55 text-[15px] leading-relaxed mt-0.5">{f.b}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 space-y-2.5">
+                {["No prompting", "No agent management", "You keep every decision"].map((c) => (
+                  <div key={c} className="flex items-center gap-2.5 text-sm text-white/70">
+                    <Check className="h-4 w-4 text-[#D4BE84]" strokeWidth={3} />
+                    {c}
+                  </div>
+                ))}
+              </div>
+              <a href="https://ai-company.ai" target="_blank" rel="noreferrer" className="mt-8">
+                <Button className="w-full rounded-full bg-[#B8A268] text-black hover:bg-[#D4BE84] font-semibold h-12">
+                  Explore ai-company.ai
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          {/* Starter Kits */}
+          <div className="mt-16">
+            <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+              <h3 className="font-sans text-2xl md:text-3xl font-bold tracking-tight">
+                You don't start from zero.
+              </h3>
+              <p className="text-sm text-white/45">Five Starter Kits for a real workday.</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/5 rounded-3xl overflow-hidden border border-white/5">
+              {STARTER_KITS.map((k, i) => (
+                <div key={k.t} className="bg-[#0a0906] p-6 hover:bg-[#B8A268]/[0.05] transition-colors">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#B8A268]/60 mb-3">
+                    Kit {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h4 className="font-sans text-lg font-bold leading-tight mb-2">{k.t}</h4>
+                  <p className="text-[13px] text-white/50 leading-relaxed">{k.b}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── QUOTE / EMPOWERMENT ─── */}
+
       <section className="relative py-32 md:py-44 overflow-hidden">
         <img src={aiaBgWarm.url} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0906] via-[#0a0906]/60 to-[#0a0906]" />
