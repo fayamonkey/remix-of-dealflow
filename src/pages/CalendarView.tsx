@@ -129,7 +129,7 @@ export default function CalendarView() {
           <div className="grid grid-cols-7">
             {days.map((day) => {
               const items = getItems(day);
-              const hasItems = items.activities.length > 0 || items.deals.length > 0 || items.tasks.length > 0;
+              const hasItems = items.activities.length > 0 || items.deals.length > 0 || items.tasks.length > 0 || items.sessions.length > 0;
               const inMonth = isSameMonth(day, currentMonth);
               const isSelected = isSameDay(day, autoSelectedDate);
 
