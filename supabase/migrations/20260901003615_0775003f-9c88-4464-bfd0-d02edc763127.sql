@@ -1,0 +1,15 @@
+REVOKE ALL ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.notify_on_deal_insert() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.update_updated_at_column() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.enrollment_apply_rules() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.enrollment_after_insert() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.enrollment_log_changes() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.can_view_record(uuid) FROM PUBLIC, anon;
+REVOKE ALL ON FUNCTION public.is_team_member(uuid, uuid) FROM PUBLIC, anon;
+REVOKE ALL ON FUNCTION public.has_role(uuid, public.app_role) FROM PUBLIC, anon;
+REVOKE ALL ON FUNCTION public.seed_default_pipeline(uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.can_view_record(uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.is_team_member(uuid, uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.seed_default_pipeline(uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.price_for_tier(public.price_tier) TO authenticated;
