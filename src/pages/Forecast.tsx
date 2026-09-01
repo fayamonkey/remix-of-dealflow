@@ -69,12 +69,18 @@ export default function Forecast() {
       <Tabs defaultValue="membership">
         <TabsList>
           <TabsTrigger value="membership">Mitgliedschaften</TabsTrigger>
+          <TabsTrigger value="scenario">Szenarien</TabsTrigger>
           <TabsTrigger value="deals">Deals</TabsTrigger>
         </TabsList>
 
         <TabsContent value="membership" className="mt-6">
           <MembershipForecast />
         </TabsContent>
+
+        <TabsContent value="scenario" className="mt-6">
+          <ScenarioPlanner />
+        </TabsContent>
+
 
         <TabsContent value="deals" className="mt-6 space-y-6">
           <div className="grid gap-4 sm:grid-cols-3">
