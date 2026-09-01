@@ -70,6 +70,14 @@ export default function Programs() {
         </Card>
       </div>
 
+      <Tabs defaultValue="enrollments">
+        <TabsList>
+          <TabsTrigger value="enrollments">Teilnahmen</TabsTrigger>
+          <TabsTrigger value="runs">Durchläufe</TabsTrigger>
+          <TabsTrigger value="templates">Angebote</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="enrollments" className="mt-4 space-y-4">
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="relative w-full sm:max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
