@@ -31,6 +31,58 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
+function SessionEditor({ session }: { session: ProgramSession }) {
+  const update = useUpdateSession();
+  const patch = (updates: Partial<ProgramSession>) => update.mutate({ id: session.id, ...updates });
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Titel</Label>
+        <Input defaultValue={session.title} onBlur={(e) => e.target.value.trim() && patch({ title: e.target.value.trim() })} />
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Typ</Label>
+        <Select value={session.session_type} onValueChange={(v) => patch({ session_type: v as SessionType })}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {SESSION_TYPES.map((t) => <SelectItem key={t} value={t}>{SESSION_TYPE_LABELS[t]}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Status</Label>
+        <Select value={session.status} onValueChange={(v) => patch({ status: v as RunStatus })}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {RUN_STATUSES.map((s) => <SelectItem key={s} value={s}>{RUN_STATUS_LABELS[s]}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Beginn</Label>
+        <Input type="datetime-local" defaultValue={toLocalInput(session.starts_at)} onBlur={(e) => patch({ starts_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Ende</Label>
+        <Input type="datetime-local" defaultValue={toLocalInput(session.ends_at)} onBlur={(e) => patch({ ends_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Meeting-Link</Label>
+        <Input defaultValue={session.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Aufzeichnung</Label>
+        <Input defaultValue={session.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Materialien</Label>
+        <Input defaultValue={session.materials_url ?? ""} onBlur={(e) => patch({ materials_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+    </div>
+  );
+}
+
 function AttendanceList({ session, runId }: { session: ProgramSession; runId: string }) {
   const { data: rows } = useAttendance(session.id);
   const sync = useSyncAttendance();
