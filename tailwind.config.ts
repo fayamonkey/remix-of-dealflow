@@ -75,6 +75,10 @@ export default {
         },
         "teal-data": "hsl(var(--teal-data))",
         "teal-dark": "hsl(var(--teal-dark))",
+        "golem-indigo": "hsl(var(--golem-indigo))",
+        "golem-red": "hsl(var(--golem-red))",
+        "golem-dark": "hsl(var(--golem-dark))",
+
       },
       borderRadius: {
         lg: "var(--radius)",
