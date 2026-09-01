@@ -147,6 +147,7 @@ export default function Members() {
                 <TableHead>Person</TableHead>
                 <TableHead className="hidden md:table-cell">Quelle / Kampagne</TableHead>
                 <TableHead>Programme</TableHead>
+                <TableHead>Mitgliedschaft</TableHead>
                 <TableHead className="hidden lg:table-cell">Kondition</TableHead>
                 <TableHead className="hidden lg:table-cell">Einwilligung</TableHead>
               </TableRow>
