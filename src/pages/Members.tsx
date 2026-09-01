@@ -64,7 +64,7 @@ export default function Members() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("contacts")
-        .select("id, first_name, last_name, email, phone, language, source, campaign, consent_marketing, consent_recording, is_foundation_member, member_number, current_price_tier, companies(id, name), enrollments(id, program_type, status, monthly_amount)")
+        .select("id, first_name, last_name, email, phone, language, source, campaign, consent_marketing, consent_recording, is_foundation_member, member_number, current_price_tier, companies(id, name), enrollments(id, program_type, status, monthly_amount, payment_status)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data as unknown as MemberRow[]) ?? [];
