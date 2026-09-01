@@ -43,6 +43,20 @@ export function ScenarioPlanner() {
   const { data: prices, isLoading } = usePricing();
   const [rows, setRows] = useState<ScenarioRow[] | null>(null);
   const [months, setMonths] = useState(12);
+  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const { data: scenarios = [] } = useScenarios();
+  const saveScenario = useSaveScenario();
+  const deleteScenario = useDeleteScenario();
+
+  const loadScenario = (id: string) => {
+    const s = scenarios.find((x) => x.id === id);
+    if (!s) return;
+    setRows((s.rows as ScenarioRow[]) ?? []);
+    setMonths(s.months ?? 12);
+    setName(s.name);
+    setCurrentId(s.id);
+  };
 
   useEffect(() => {
     if (prices && !rows) setRows(defaultRows(prices));
