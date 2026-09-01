@@ -5,18 +5,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2, Plus, Users } from "lucide-react";
 import {
-  useSessions, useUpdateRun, useDeleteRun, useCreateSession, useDeleteSession,
+  useSessions, useUpdateRun, useDeleteRun, useCreateSession, useDeleteSession, useUpdateSession,
   useAttendance, useSyncAttendance, useSetAttendance, type ProgramRun, type ProgramSession,
 } from "@/hooks/usePrograms";
 import { useToast } from "@/hooks/use-toast";
 import {
   ATTENDANCE_LABELS, ATTENDANCE_STATUSES, RUN_STATUSES, RUN_STATUS_LABELS,
-  SESSION_TYPE_LABELS, formatDateTime, runStatusVariant,
-  type AttendanceStatus, type RunStatus,
+  SESSION_TYPE_LABELS, SESSION_TYPES, formatDateTime, runStatusVariant,
+  type AttendanceStatus, type RunStatus, type SessionType,
 } from "@/lib/programs";
+
+function toLocalInput(iso: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 interface Props {
   run: ProgramRun | null;
