@@ -27,6 +27,17 @@ export default function CalendarView() {
       return data;
     },
   });
+  const { data: sessions } = useQuery({
+    queryKey: ["calendar-sessions"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("program_sessions")
+        .select("id, title, starts_at, session_type, meeting_url, run:program_runs(name)")
+        .not("starts_at", "is", null);
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const days = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 });
@@ -38,8 +49,10 @@ export default function CalendarView() {
     const dayActivities = activities?.filter((a) => isSameDay(new Date(a.created_at), day)) || [];
     const dayDeals = deals?.filter((d) => d.close_date && isSameDay(new Date(d.close_date), day)) || [];
     const dayTasks = tasks?.filter((t) => t.due_date && isSameDay(new Date(t.due_date), day)) || [];
-    return { activities: dayActivities, deals: dayDeals, tasks: dayTasks };
+    const daySessions = sessions?.filter((s) => s.starts_at && isSameDay(new Date(s.starts_at), day)) || [];
+    return { activities: dayActivities, deals: dayDeals, tasks: dayTasks, sessions: daySessions };
   };
+
 
   // Find the next upcoming event date to auto-select
   const autoSelectedDate = useMemo(() => {
