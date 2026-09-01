@@ -5,22 +5,82 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2, Plus, Users } from "lucide-react";
 import {
-  useSessions, useUpdateRun, useDeleteRun, useCreateSession, useDeleteSession,
+  useSessions, useUpdateRun, useDeleteRun, useCreateSession, useDeleteSession, useUpdateSession,
   useAttendance, useSyncAttendance, useSetAttendance, type ProgramRun, type ProgramSession,
 } from "@/hooks/usePrograms";
 import { useToast } from "@/hooks/use-toast";
 import {
   ATTENDANCE_LABELS, ATTENDANCE_STATUSES, RUN_STATUSES, RUN_STATUS_LABELS,
-  SESSION_TYPE_LABELS, formatDateTime, runStatusVariant,
-  type AttendanceStatus, type RunStatus,
+  SESSION_TYPE_LABELS, SESSION_TYPES, formatDateTime, runStatusVariant,
+  type AttendanceStatus, type RunStatus, type SessionType,
 } from "@/lib/programs";
+
+function toLocalInput(iso: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 interface Props {
   run: ProgramRun | null;
   onOpenChange: (open: boolean) => void;
+}
+
+function SessionEditor({ session }: { session: ProgramSession }) {
+  const update = useUpdateSession();
+  const patch = (updates: Partial<ProgramSession>) => update.mutate({ id: session.id, ...updates });
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Titel</Label>
+        <Input defaultValue={session.title} onBlur={(e) => e.target.value.trim() && patch({ title: e.target.value.trim() })} />
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Typ</Label>
+        <Select value={session.session_type} onValueChange={(v) => patch({ session_type: v as SessionType })}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {SESSION_TYPES.map((t) => <SelectItem key={t} value={t}>{SESSION_TYPE_LABELS[t]}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Status</Label>
+        <Select value={session.status} onValueChange={(v) => patch({ status: v as RunStatus })}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {RUN_STATUSES.map((s) => <SelectItem key={s} value={s}>{RUN_STATUS_LABELS[s]}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Beginn</Label>
+        <Input type="datetime-local" defaultValue={toLocalInput(session.starts_at)} onBlur={(e) => patch({ starts_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+      </div>
+      <div className="space-y-1.5">
+        <Label className="text-xs">Ende</Label>
+        <Input type="datetime-local" defaultValue={toLocalInput(session.ends_at)} onBlur={(e) => patch({ ends_at: e.target.value ? new Date(e.target.value).toISOString() : null })} />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Meeting-Link</Label>
+        <Input defaultValue={session.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Aufzeichnung</Label>
+        <Input defaultValue={session.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+      <div className="space-y-1.5 sm:col-span-2">
+        <Label className="text-xs">Materialien</Label>
+        <Input defaultValue={session.materials_url ?? ""} onBlur={(e) => patch({ materials_url: e.target.value || null })} placeholder="https://..." />
+      </div>
+    </div>
+  );
 }
 
 function AttendanceList({ session, runId }: { session: ProgramSession; runId: string }) {
@@ -98,6 +158,10 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
 
         <div className="mt-6 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Titel</Label>
+              <Input key={`name-${run.id}`} defaultValue={run.name} onBlur={(e) => e.target.value.trim() && patch({ name: e.target.value.trim() })} />
+            </div>
             <div className="space-y-2">
               <Label>Status</Label>
               <Select value={run.status} onValueChange={(v) => patch({ status: v as RunStatus })}>
@@ -121,19 +185,35 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
             </div>
             <div className="space-y-2">
               <Label>Kampagne</Label>
-              <Input defaultValue={run.campaign ?? ""} onBlur={(e) => patch({ campaign: e.target.value || null })} />
+              <Input key={`camp-${run.id}`} defaultValue={run.campaign ?? ""} onBlur={(e) => patch({ campaign: e.target.value || null })} />
             </div>
             <div className="space-y-2">
               <Label>Trainer</Label>
-              <Input defaultValue={run.lead_trainer ?? ""} onBlur={(e) => patch({ lead_trainer: e.target.value || null })} />
+              <Input key={`trainer-${run.id}`} defaultValue={run.lead_trainer ?? ""} onBlur={(e) => patch({ lead_trainer: e.target.value || null })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Partner</Label>
+              <Input key={`partner-${run.id}`} defaultValue={run.partner ?? ""} onBlur={(e) => patch({ partner: e.target.value || null })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Zeitzone</Label>
+              <Input key={`tz-${run.id}`} defaultValue={run.timezone ?? ""} onBlur={(e) => e.target.value.trim() && patch({ timezone: e.target.value.trim() })} placeholder="Europe/Berlin" />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Meeting-Link</Label>
-              <Input defaultValue={run.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
+              <Input key={`meet-${run.id}`} defaultValue={run.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Aufzeichnung</Label>
-              <Input defaultValue={run.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+              <Input key={`rec-${run.id}`} defaultValue={run.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+            </div>
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Community-Bereich</Label>
+              <Input key={`comm-${run.id}`} defaultValue={run.community_area ?? ""} onBlur={(e) => patch({ community_area: e.target.value || null })} />
+            </div>
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Notizen</Label>
+              <Textarea key={`notes-${run.id}`} defaultValue={run.notes ?? ""} onBlur={(e) => patch({ notes: e.target.value || null })} rows={3} />
             </div>
           </div>
 
@@ -154,7 +234,12 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
                     <Trash2 className="h-4 w-4 text-muted-foreground" />
                   </Button>
                 </div>
-                {openSession === s.id && <AttendanceList session={s} runId={run.id} />}
+                {openSession === s.id && (
+                  <>
+                    <SessionEditor session={s} />
+                    <AttendanceList session={s} runId={run.id} />
+                  </>
+                )}
               </div>
             )) : <p className="text-sm text-muted-foreground">Noch keine Termine.</p>}
 
