@@ -22,6 +22,8 @@ import Tasks from "./pages/Tasks";
 import CalendarView from "./pages/CalendarView";
 import Members from "./pages/Members";
 import Programs from "./pages/Programs";
+import ContractsPage from "./pages/Contracts";
+import OpsInbox from "./pages/OpsInbox";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +45,8 @@ const App = () => (
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/programs" element={<Programs />} />
+                <Route path="/contracts" element={<ContractsPage />} />
+                <Route path="/inbox" element={<OpsInbox />} />
                 <Route path="/companies" element={<Companies />} />
                 <Route path="/activities" element={<Activities />} />
                 <Route path="/forecast" element={<Forecast />} />

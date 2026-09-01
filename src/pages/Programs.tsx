@@ -12,6 +12,9 @@ import { useEnrollments, type Enrollment } from "@/hooks/useEnrollments";
 import { CreateEnrollmentDialog } from "@/components/programs/CreateEnrollmentDialog";
 import { EnrollmentDetailSheet } from "@/components/programs/EnrollmentDetailSheet";
 import { GolemImportDialog } from "@/components/programs/GolemImportDialog";
+import { RunsTab } from "@/components/programs/RunsTab";
+import { TemplatesTab } from "@/components/programs/TemplatesTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ACCESS_LABELS, ENROLLMENT_STATUSES, PAYMENT_LABELS, PRICE_LABELS, PROGRAM_LABELS,
   PROGRAM_TYPES, STATUS_LABELS, formatEuro, statusVariant,
@@ -67,6 +70,14 @@ export default function Programs() {
         </Card>
       </div>
 
+      <Tabs defaultValue="enrollments">
+        <TabsList>
+          <TabsTrigger value="enrollments">Teilnahmen</TabsTrigger>
+          <TabsTrigger value="runs">Durchläufe</TabsTrigger>
+          <TabsTrigger value="templates">Angebote</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="enrollments" className="mt-4 space-y-4">
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="relative w-full sm:max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -132,6 +143,16 @@ export default function Programs() {
           </Table>
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="runs" className="mt-4">
+          <RunsTab />
+        </TabsContent>
+
+        <TabsContent value="templates" className="mt-4">
+          <TemplatesTab />
+        </TabsContent>
+      </Tabs>
 
       <CreateEnrollmentDialog open={createOpen} onOpenChange={setCreateOpen} />
       <GolemImportDialog open={importOpen} onOpenChange={setImportOpen} />
@@ -139,3 +160,4 @@ export default function Programs() {
     </div>
   );
 }
+
