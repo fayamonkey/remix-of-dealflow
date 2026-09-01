@@ -7,6 +7,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 import { format, startOfMonth, addMonths } from "date-fns";
 import { TrendingUp, DollarSign, Target, BarChart3 } from "lucide-react";
 import { PageBanner } from "@/components/PageBanner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MembershipForecast } from "@/components/forecast/MembershipForecast";
 
 export default function Forecast() {
   const { data, isLoading } = useQuery({
