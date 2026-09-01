@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.check_allowed_signup_email() FROM PUBLIC, anon, authenticated;
