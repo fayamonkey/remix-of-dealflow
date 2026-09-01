@@ -64,6 +64,11 @@ export default function Auth() {
       return;
     }
 
+    if (!ALLOWED_EMAILS.includes(parsed.data.email.toLowerCase())) {
+      setFieldErrors({ email: "This workspace is invite-only. Your email is not on the access list." });
+      return;
+    }
+
     setSubmitting(true);
     try {
       if (isLogin) {
