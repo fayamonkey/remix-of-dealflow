@@ -19,6 +19,7 @@ export default function Settings() {
         <TabsList className="flex flex-wrap h-auto">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
+          <TabsTrigger value="pricing">Preise</TabsTrigger>
           <TabsTrigger value="team">Team</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="templates">Email Templates</TabsTrigger>
@@ -27,10 +28,12 @@ export default function Settings() {
 
         <TabsContent value="profile"><ProfileSettings /></TabsContent>
         <TabsContent value="pipeline"><PipelineSettings /></TabsContent>
+        <TabsContent value="pricing"><PricingSettings /></TabsContent>
         <TabsContent value="team"><TeamSettings /></TabsContent>
         <TabsContent value="notifications"><NotificationSettings /></TabsContent>
         <TabsContent value="templates"><EmailTemplateSettings /></TabsContent>
         <TabsContent value="connectors"><ConnectorSettings /></TabsContent>
+
       </Tabs>
     </div>
   );
