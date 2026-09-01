@@ -132,6 +132,16 @@ export default function Programs() {
           </Table>
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="runs" className="mt-4">
+          <RunsTab />
+        </TabsContent>
+
+        <TabsContent value="templates" className="mt-4">
+          <TemplatesTab />
+        </TabsContent>
+      </Tabs>
 
       <CreateEnrollmentDialog open={createOpen} onOpenChange={setCreateOpen} />
       <GolemImportDialog open={importOpen} onOpenChange={setImportOpen} />
@@ -139,3 +149,4 @@ export default function Programs() {
     </div>
   );
 }
+
