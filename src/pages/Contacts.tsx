@@ -39,6 +39,27 @@ export default function Contacts() {
   const { toast } = useToast();
   const [deleting, setDeleting] = useState(false);
 
+  // Teilnahmen je Person: true = zahlendes Programm, false = nur Gratis-Workshop
+  const { data: enrollments } = useQuery({
+    queryKey: ["contact-roles"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("enrollments").select("contact_id, program_type");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const enrolled = useMemo(() => {
+    const map = new Map<string, boolean>();
+    (enrollments ?? []).forEach((e: any) => {
+      const paying = e.program_type !== "free_workshop";
+      map.set(e.contact_id, (map.get(e.contact_id) ?? false) || paying);
+    });
+    return map;
+  }, [enrollments]);
+
+
+
   useEffect(() => {
     const openId = searchParams.get("open");
     if (openId && contacts) {
