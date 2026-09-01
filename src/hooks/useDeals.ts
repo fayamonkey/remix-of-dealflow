@@ -14,6 +14,9 @@ export interface Deal {
   probability: number;
   close_date: string | null;
   notes: string | null;
+  offer_type?: string | null;
+  seats?: number | null;
+
   created_by: string;
   created_at: string;
   updated_at: string;
