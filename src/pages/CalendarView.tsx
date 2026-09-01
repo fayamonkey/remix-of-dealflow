@@ -27,6 +27,17 @@ export default function CalendarView() {
       return data;
     },
   });
+  const { data: sessions } = useQuery({
+    queryKey: ["calendar-sessions"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("program_sessions")
+        .select("id, title, starts_at, session_type, meeting_url, run:program_runs(name)")
+        .not("starts_at", "is", null);
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const days = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 });
@@ -38,8 +49,10 @@ export default function CalendarView() {
     const dayActivities = activities?.filter((a) => isSameDay(new Date(a.created_at), day)) || [];
     const dayDeals = deals?.filter((d) => d.close_date && isSameDay(new Date(d.close_date), day)) || [];
     const dayTasks = tasks?.filter((t) => t.due_date && isSameDay(new Date(t.due_date), day)) || [];
-    return { activities: dayActivities, deals: dayDeals, tasks: dayTasks };
+    const daySessions = sessions?.filter((s) => s.starts_at && isSameDay(new Date(s.starts_at), day)) || [];
+    return { activities: dayActivities, deals: dayDeals, tasks: dayTasks, sessions: daySessions };
   };
+
 
   // Find the next upcoming event date to auto-select
   const autoSelectedDate = useMemo(() => {
@@ -63,14 +76,21 @@ export default function CalendarView() {
         if (isAfter(dt, today) || isSameDay(dt, today)) upcomingDates.push(dt);
       }
     });
+    sessions?.forEach((s) => {
+      if (s.starts_at) {
+        const dt = new Date(s.starts_at);
+        if (isAfter(dt, today) || isSameDay(dt, today)) upcomingDates.push(dt);
+      }
+    });
 
     if (upcomingDates.length === 0) return today;
     upcomingDates.sort((a, b) => a.getTime() - b.getTime());
     return upcomingDates[0];
-  }, [selectedDate, activities, deals, tasks]);
+  }, [selectedDate, activities, deals, tasks, sessions]);
 
   const sidebarItems = getItems(autoSelectedDate);
-  const hasSidebarItems = sidebarItems.activities.length > 0 || sidebarItems.deals.length > 0 || sidebarItems.tasks.length > 0;
+  const hasSidebarItems = sidebarItems.activities.length > 0 || sidebarItems.deals.length > 0 || sidebarItems.tasks.length > 0 || sidebarItems.sessions.length > 0;
+
 
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -109,7 +129,7 @@ export default function CalendarView() {
           <div className="grid grid-cols-7">
             {days.map((day) => {
               const items = getItems(day);
-              const hasItems = items.activities.length > 0 || items.deals.length > 0 || items.tasks.length > 0;
+              const hasItems = items.activities.length > 0 || items.deals.length > 0 || items.tasks.length > 0 || items.sessions.length > 0;
               const inMonth = isSameMonth(day, currentMonth);
               const isSelected = isSameDay(day, autoSelectedDate);
 
@@ -128,6 +148,7 @@ export default function CalendarView() {
                           {items.activities.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />}
                           {items.deals.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-green-500" />}
                           {items.tasks.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
+                          {items.sessions.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
                         </div>
                       )}
                     </button>
@@ -135,6 +156,14 @@ export default function CalendarView() {
                   {hasItems && (
                     <PopoverContent className="w-64 p-3">
                       <p className="text-sm font-semibold mb-2">{format(day, "PPP")}</p>
+                      {items.sessions.map((s) => (
+                        <div key={s.id} className="text-xs mb-1.5">
+                          <Badge className="text-[10px] mr-1 bg-primary/10 text-primary border-primary/20" variant="outline">
+                            {s.starts_at ? format(new Date(s.starts_at), "HH:mm") : "Termin"}
+                          </Badge>
+                          {s.title}
+                        </div>
+                      ))}
                       {items.activities.map((a) => (
                         <div key={a.id} className="text-xs mb-1.5">
                           <Badge variant="outline" className="text-[10px] mr-1">{a.type}</Badge>
@@ -174,6 +203,25 @@ export default function CalendarView() {
             <div className="text-sm text-muted-foreground py-8 text-center">
               <CalendarIcon className="h-8 w-8 mx-auto mb-2 opacity-40" />
               No events on this day.
+            </div>
+          )}
+
+          {sidebarItems.sessions.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase text-muted-foreground tracking-wider">Programm-Termine</h3>
+              {sidebarItems.sessions.map((s) => (
+                <div key={s.id} className="rounded-md border p-3 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                      {s.starts_at ? format(new Date(s.starts_at), "HH:mm") : "—"}
+                    </Badge>
+                    <span className="text-sm font-medium truncate">{s.title}</span>
+                  </div>
+                  {(s.run as { name?: string } | null)?.name && (
+                    <p className="text-xs text-muted-foreground truncate">{(s.run as { name?: string }).name}</p>
+                  )}
+                </div>
+              ))}
             </div>
           )}
 
