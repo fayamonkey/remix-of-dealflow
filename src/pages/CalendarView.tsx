@@ -156,6 +156,14 @@ export default function CalendarView() {
                   {hasItems && (
                     <PopoverContent className="w-64 p-3">
                       <p className="text-sm font-semibold mb-2">{format(day, "PPP")}</p>
+                      {items.sessions.map((s) => (
+                        <div key={s.id} className="text-xs mb-1.5">
+                          <Badge className="text-[10px] mr-1 bg-primary/10 text-primary border-primary/20" variant="outline">
+                            {s.starts_at ? format(new Date(s.starts_at), "HH:mm") : "Termin"}
+                          </Badge>
+                          {s.title}
+                        </div>
+                      ))}
                       {items.activities.map((a) => (
                         <div key={a.id} className="text-xs mb-1.5">
                           <Badge variant="outline" className="text-[10px] mr-1">{a.type}</Badge>
