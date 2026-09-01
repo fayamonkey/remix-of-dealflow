@@ -13,6 +13,15 @@ export interface Contact {
   created_by: string;
   created_at: string;
   updated_at: string;
+  language?: string;
+  source?: string | null;
+  campaign?: string | null;
+  consent_marketing?: boolean;
+  consent_recording?: boolean;
+  consent_at?: string | null;
+  is_foundation_member?: boolean;
+  member_number?: number | null;
+  current_price_tier?: string;
   companies?: { id: string; name: string } | null;
 }
 
