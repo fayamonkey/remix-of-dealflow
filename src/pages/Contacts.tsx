@@ -142,7 +142,26 @@ export default function Contacts() {
                     <Checkbox checked={selected.has(c.id)} onCheckedChange={() => toggleSelect(c.id)} />
                   </TableCell>
                   <TableCell className="font-medium" onClick={() => setSelectedContact(c)}>{c.first_name} {c.last_name}</TableCell>
+                  <TableCell>
+                    {(() => {
+                      const role = roleOf(c, enrolled);
+                      return role.member ? (
+                        <Link
+                          to={`/members?q=${encodeURIComponent(c.email || c.last_name)}`}
+                          className="inline-flex items-center gap-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Badge variant={role.variant} className="text-xs">
+                            {role.label} <ArrowUpRight className="h-3 w-3 ml-1" />
+                          </Badge>
+                        </Link>
+                      ) : (
+                        <Badge variant={role.variant} className="text-xs">{role.label}</Badge>
+                      );
+                    })()}
+                  </TableCell>
                   <TableCell className="text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.email || "—"}</TableCell>
+
                   <TableCell className="text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.companies?.name || "—"}</TableCell>
                   <TableCell className="hidden md:table-cell text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.position || "—"}</TableCell>
                   <TableCell className="hidden md:table-cell" onClick={() => setSelectedContact(c)}>
