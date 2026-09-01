@@ -15,6 +15,8 @@ import { Separator } from "@/components/ui/separator";
 
 import authBgAsset from "@/assets/auth-bg.jpg.asset.json";
 
+const ALLOWED_EMAILS = ["fayamonkeyrecords@gmail.com", "hje@golem.de"];
+
 const loginSchema = z.object({
   email: z.string().trim().email("Please enter a valid email").max(255),
   password: z.string().min(8, "Password must be at least 8 characters").max(128),
@@ -59,6 +61,11 @@ export default function Auth() {
       const errs: Record<string, string> = {};
       parsed.error.errors.forEach((err) => { errs[err.path[0] as string] = err.message; });
       setFieldErrors(errs);
+      return;
+    }
+
+    if (!ALLOWED_EMAILS.includes(parsed.data.email.toLowerCase())) {
+      setFieldErrors({ email: "This workspace is invite-only. Your email is not on the access list." });
       return;
     }
 
