@@ -14,7 +14,7 @@ import { GolemImportDialog } from "@/components/programs/GolemImportDialog";
 import { MemberDetailSheet } from "@/components/programs/MemberDetailSheet";
 import {
   PRICE_LABELS, PROGRAM_LABELS, STATUS_LABELS, formatEuro, statusVariant,
-  type PriceTier, type ProgramType, type EnrollmentStatus,
+  type PriceTier, type ProgramType, type EnrollmentStatus, type PaymentStatus,
 } from "@/lib/programs";
 
 export interface MemberRow {
@@ -32,8 +32,24 @@ export interface MemberRow {
   member_number: number | null;
   current_price_tier: PriceTier;
   companies?: { id: string; name: string } | null;
-  enrollments?: { id: string; program_type: ProgramType; status: EnrollmentStatus; monthly_amount: number }[];
+  enrollments?: { id: string; program_type: ProgramType; status: EnrollmentStatus; monthly_amount: number; payment_status: PaymentStatus }[];
 }
+
+type Membership =
+  | { kind: "paid"; label: string; variant: "default" }
+  | { kind: "pending"; label: string; variant: "secondary" }
+  | { kind: "free"; label: string; variant: "outline" };
+
+function membershipOf(m: MemberRow): Membership {
+  const paying = (m.enrollments ?? []).filter((e) => e.program_type !== "free_workshop");
+  const paid = paying.find((e) => e.payment_status === "paid");
+  if (paid) return { kind: "paid", label: `Zahlend · ${PROGRAM_LABELS[paid.program_type]} · ${formatEuro(Number(paid.monthly_amount))}`, variant: "default" };
+  const pending = paying.find((e) => e.payment_status === "pending");
+  if (pending) return { kind: "pending", label: `Zahlung offen · ${PROGRAM_LABELS[pending.program_type]}`, variant: "secondary" };
+  if (paying.length) return { kind: "free", label: "Noch nicht bezahlt", variant: "outline" };
+  return { kind: "free", label: "Gratis-Teilnehmer", variant: "outline" };
+}
+
 
 type Filter = "all" | "cohort" | "bootcamp" | "workshop" | "foundation" | "no_consent";
 
@@ -48,7 +64,7 @@ export default function Members() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("contacts")
-        .select("id, first_name, last_name, email, phone, language, source, campaign, consent_marketing, consent_recording, is_foundation_member, member_number, current_price_tier, companies(id, name), enrollments(id, program_type, status, monthly_amount)")
+        .select("id, first_name, last_name, email, phone, language, source, campaign, consent_marketing, consent_recording, is_foundation_member, member_number, current_price_tier, companies(id, name), enrollments(id, program_type, status, monthly_amount, payment_status)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data as unknown as MemberRow[]) ?? [];
@@ -131,6 +147,7 @@ export default function Members() {
                 <TableHead>Person</TableHead>
                 <TableHead className="hidden md:table-cell">Quelle / Kampagne</TableHead>
                 <TableHead>Programme</TableHead>
+                <TableHead>Mitgliedschaft</TableHead>
                 <TableHead className="hidden lg:table-cell">Kondition</TableHead>
                 <TableHead className="hidden lg:table-cell">Einwilligung</TableHead>
               </TableRow>
@@ -159,6 +176,11 @@ export default function Members() {
                         </Badge>
                       ))}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    {(() => { const ms = membershipOf(m); return (
+                      <Badge variant={ms.variant} className="text-xs whitespace-nowrap">{ms.label}</Badge>
+                    ); })()}
                   </TableCell>
                   <TableCell className="hidden lg:table-cell text-muted-foreground text-sm">{PRICE_LABELS[m.current_price_tier]}</TableCell>
                   <TableCell className="hidden lg:table-cell">
