@@ -30,25 +30,37 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
   const { toast } = useToast();
 
   const [title, setTitle] = useState("");
+  const [offerType, setOfferType] = useState<OfferType>("ai_company_day");
+  const [seats, setSeats] = useState("1");
   const [companyId, setCompanyId] = useState<string>("");
   const [contactId, setContactId] = useState<string>("");
   const [stageId, setStageId] = useState(defaultStageId || stages[0]?.id || "");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(String(suggestedAmount("ai_company_day", 1)));
+  const [valueTouched, setValueTouched] = useState(false);
   const [probability, setProbability] = useState("50");
   const [closeDate, setCloseDate] = useState("");
   const [notes, setNotes] = useState("");
 
+  const applyOffer = (type: OfferType, seatCount: number) => {
+    if (valueTouched) return;
+    const amount = suggestedAmount(type, seatCount);
+    setValue(amount ? String(amount) : "");
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !title || !stageId) return;
+    if (!user || !stageId) return;
+    const finalTitle = title.trim() || OFFERS[offerType].label;
 
     createDeal.mutate(
       {
-        title,
+        title: finalTitle,
         pipeline_id: pipelineId,
         stage_id: stageId,
         owner_id: user.id,
         created_by: user.id,
+        offer_type: offerType,
+        seats: parseInt(seats) || 1,
         company_id: companyId || null,
         contact_id: contactId || null,
         value: parseFloat(value) || 0,
@@ -58,16 +70,19 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
       },
       {
         onSuccess: () => {
-          toast({ title: "Deal created", description: `"${title}" added to pipeline` });
+          toast({ title: "Deal angelegt", description: `„${finalTitle}“ ist in der Pipeline` });
           onOpenChange(false);
-          setTitle(""); setCompanyId(""); setContactId(""); setValue(""); setProbability("50"); setCloseDate(""); setNotes("");
+          setTitle(""); setCompanyId(""); setContactId(""); setSeats("1"); setValueTouched(false);
+          setValue(String(suggestedAmount("ai_company_day", 1))); setOfferType("ai_company_day");
+          setProbability("50"); setCloseDate(""); setNotes("");
         },
-        onError: (err: any) => {
-          toast({ title: "Error", description: "Failed to create deal. Please try again.", variant: "destructive" });
+        onError: () => {
+          toast({ title: "Fehler", description: "Deal konnte nicht angelegt werden.", variant: "destructive" });
         },
       }
     );
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
