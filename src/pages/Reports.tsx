@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend } from "recharts";
 import { formatCurrency } from "@/lib/formatters";
 import { PageBanner } from "@/components/PageBanner";
+import { MembershipReports } from "@/components/reports/MembershipReports";
 
 export default function Reports() {
   const { data: stageData, isLoading: stagesLoading } = useQuery({
@@ -190,6 +191,8 @@ export default function Reports() {
           </CardContent>
         </Card>
       </div>
+
+      <MembershipReports />
     </div>
   );
 }
