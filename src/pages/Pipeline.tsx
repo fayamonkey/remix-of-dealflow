@@ -81,7 +81,7 @@ export default function Pipeline() {
 
   return (
     <div className="space-y-6">
-      <PageBanner title="Pipeline" description="Drag deals across stages to update progress.">
+      <PageBanner title="B2B-Pipeline" description="Firmenanfragen: Strategieberatung, maßgeschneiderte Workshops, KI-Firma-Tag und Firmenplätze. Einzelteilnehmer laufen über Programme & Mitglieder.">
         <Button className="w-full sm:w-auto" onClick={() => { setCreateStageId(stages?.[0]?.id); setCreateOpen(true); }}>
           <Plus className="h-4 w-4 mr-2" /> Create Deal
         </Button>
