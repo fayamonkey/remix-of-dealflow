@@ -106,6 +106,10 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
 
         <div className="mt-6 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Titel</Label>
+              <Input key={`name-${run.id}`} defaultValue={run.name} onBlur={(e) => e.target.value.trim() && patch({ name: e.target.value.trim() })} />
+            </div>
             <div className="space-y-2">
               <Label>Status</Label>
               <Select value={run.status} onValueChange={(v) => patch({ status: v as RunStatus })}>
