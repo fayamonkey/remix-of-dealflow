@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useContacts, Contact, useDeleteContact } from "@/hooks/useContacts";
 import { CreateContactDialog } from "@/components/contacts/CreateContactDialog";
 import { ContactDetailSheet } from "@/components/contacts/ContactDetailSheet";
@@ -12,7 +14,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { PageBanner } from "@/components/PageBanner";
-import { Search, Plus, Users } from "lucide-react";
+import { Search, Plus, Users, ArrowUpRight } from "lucide-react";
+
+type Role = { label: string; variant: "default" | "secondary" | "outline"; member: boolean };
+
+/** Rolle einer Person: Programm-Teilnahme schlägt Firmenkontakt schlägt Lead. */
+function roleOf(contact: Contact, enrolled: Map<string, boolean>): Role {
+  const isMember = enrolled.get(contact.id);
+  if (isMember === true) return { label: "Mitglied", variant: "default", member: true };
+  if (isMember === false) return { label: "Teilnehmer", variant: "secondary", member: true };
+  if (contact.company_id) return { label: "B2B-Kontakt", variant: "outline", member: false };
+  return { label: "Lead", variant: "outline", member: false };
+}
+
 
 export default function Contacts() {
   const [search, setSearch] = useState("");
@@ -24,6 +38,27 @@ export default function Contacts() {
   const deleteContact = useDeleteContact();
   const { toast } = useToast();
   const [deleting, setDeleting] = useState(false);
+
+  // Teilnahmen je Person: true = zahlendes Programm, false = nur Gratis-Workshop
+  const { data: enrollments } = useQuery({
+    queryKey: ["contact-roles"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("enrollments").select("contact_id, program_type");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const enrolled = useMemo(() => {
+    const map = new Map<string, boolean>();
+    (enrollments ?? []).forEach((e: any) => {
+      const paying = e.program_type !== "free_workshop";
+      map.set(e.contact_id, (map.get(e.contact_id) ?? false) || paying);
+    });
+    return map;
+  }, [enrollments]);
+
+
 
   useEffect(() => {
     const openId = searchParams.get("open");
@@ -61,15 +96,15 @@ export default function Contacts() {
 
   return (
     <div className="space-y-6">
-      <PageBanner title="Contacts" description="Manage your contacts and companies.">
+      <PageBanner title="Kontakte" description="Alle Personen — Leads, Firmen-Ansprechpartner und Teilnehmer. Programme, Preise und Verträge stehen unter Mitglieder.">
         <Button className="w-full sm:w-auto" onClick={() => setCreateOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" /> Add Contact
+          <Plus className="h-4 w-4 mr-2" /> Kontakt anlegen
         </Button>
       </PageBanner>
 
       <div className="relative w-full max-w-sm">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input placeholder="Search contacts..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
+        <Input placeholder="Kontakte durchsuchen..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
       </div>
 
       {isLoading ? (
@@ -77,10 +112,10 @@ export default function Contacts() {
       ) : !contacts?.length ? (
         <div className="flex flex-col items-center py-16">
           <Users className="h-12 w-12 text-muted-foreground/40 mb-3" />
-          <h3 className="font-semibold text-lg">No contacts yet</h3>
-          <p className="text-muted-foreground text-sm mb-4">Add your first contact to get started.</p>
+          <h3 className="font-semibold text-lg">Noch keine Kontakte</h3>
+          <p className="text-muted-foreground text-sm mb-4">Lege den ersten Kontakt an oder importiere Teilnehmer.</p>
           <Button variant="secondary" onClick={() => setCreateOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" /> Add contact
+            <Plus className="h-4 w-4 mr-2" /> Kontakt anlegen
           </Button>
         </div>
       ) : (
@@ -92,12 +127,14 @@ export default function Contacts() {
                   <Checkbox checked={selected.size === contacts.length && contacts.length > 0} onCheckedChange={toggleAll} />
                 </TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Company</TableHead>
+                <TableHead>Rolle</TableHead>
+                <TableHead>E-Mail</TableHead>
+                <TableHead>Firma</TableHead>
                 <TableHead className="hidden md:table-cell">Position</TableHead>
                 <TableHead className="hidden md:table-cell">Tags</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {contacts.map((c) => (
                 <TableRow key={c.id} className="cursor-pointer hover:bg-muted/50">
@@ -105,7 +142,26 @@ export default function Contacts() {
                     <Checkbox checked={selected.has(c.id)} onCheckedChange={() => toggleSelect(c.id)} />
                   </TableCell>
                   <TableCell className="font-medium" onClick={() => setSelectedContact(c)}>{c.first_name} {c.last_name}</TableCell>
+                  <TableCell>
+                    {(() => {
+                      const role = roleOf(c, enrolled);
+                      return role.member ? (
+                        <Link
+                          to={`/members?q=${encodeURIComponent(c.email || c.last_name)}`}
+                          className="inline-flex items-center gap-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Badge variant={role.variant} className="text-xs">
+                            {role.label} <ArrowUpRight className="h-3 w-3 ml-1" />
+                          </Badge>
+                        </Link>
+                      ) : (
+                        <Badge variant={role.variant} className="text-xs">{role.label}</Badge>
+                      );
+                    })()}
+                  </TableCell>
                   <TableCell className="text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.email || "—"}</TableCell>
+
                   <TableCell className="text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.companies?.name || "—"}</TableCell>
                   <TableCell className="hidden md:table-cell text-muted-foreground" onClick={() => setSelectedContact(c)}>{c.position || "—"}</TableCell>
                   <TableCell className="hidden md:table-cell" onClick={() => setSelectedContact(c)}>

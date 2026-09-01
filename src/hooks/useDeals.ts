@@ -14,6 +14,9 @@ export interface Deal {
   probability: number;
   close_date: string | null;
   notes: string | null;
+  offer_type?: string | null;
+  seats?: number | null;
+
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -67,6 +70,9 @@ export function useCreateDeal() {
       probability?: number;
       close_date?: string | null;
       notes?: string | null;
+      offer_type?: string | null;
+      seats?: number | null;
+
     }) => {
       const { data, error } = await supabase.from("deals").insert(deal).select().single();
       if (error) throw error;

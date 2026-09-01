@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 import { supabase } from "@/integrations/supabase/client";
 import { PageBanner } from "@/components/PageBanner";
 import { Input } from "@/components/ui/input";
@@ -54,8 +56,10 @@ function membershipOf(m: MemberRow): Membership {
 type Filter = "all" | "cohort" | "bootcamp" | "workshop" | "foundation" | "no_consent";
 
 export default function Members() {
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") ?? "");
   const [filter, setFilter] = useState<Filter>("all");
+
   const [importOpen, setImportOpen] = useState(false);
   const [selected, setSelected] = useState<MemberRow | null>(null);
 
