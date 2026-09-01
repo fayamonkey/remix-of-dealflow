@@ -149,7 +149,7 @@ export default function Landing() {
                 AgentHub Modularity
               </span>
               <p className="text-sm text-white/70">
-                Run this CRM standalone — or plug it into your AgentHub for one connected advantage.
+                Run this CRM standalone — or hand it to Mira, your AI CEO, and it becomes your sales department.
               </p>
             </div>
           </div>
