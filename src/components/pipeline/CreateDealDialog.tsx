@@ -90,17 +90,33 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Create New Deal</DialogTitle>
+          <DialogTitle>Neue Firmenanfrage</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="deal-title">Deal Title *</Label>
-            <Input id="deal-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Enterprise License" required maxLength={200} />
+            <Label>Angebotstyp *</Label>
+            <Select
+              value={offerType}
+              onValueChange={(v) => { const t = v as OfferType; setOfferType(t); setSeats(String(OFFERS[t].defaultSeats)); applyOffer(t, OFFERS[t].defaultSeats); }}
+            >
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {OFFER_TYPES.map((t) => (
+                  <SelectItem key={t} value={t}>{OFFERS[t].label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">{OFFERS[offerType].hint}</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="deal-title">Titel</Label>
+            <Input id="deal-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={OFFERS[offerType].label} maxLength={200} />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label>Stage</Label>
+              <Label>Stufe</Label>
               <Select value={stageId} onValueChange={setStageId}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -116,10 +132,16 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="deal-value">Value ($)</Label>
-              <Input id="deal-value" type="number" value={value} onChange={(e) => setValue(e.target.value)} placeholder="0" />
+              <Label htmlFor="deal-seats">Plätze</Label>
+              <Input id="deal-seats" type="number" min="1" value={seats}
+                onChange={(e) => { setSeats(e.target.value); applyOffer(offerType, parseInt(e.target.value) || 1); }} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="deal-value">{OFFERS[offerType].recurring ? "Betrag (€/Monat)" : "Betrag (€)"}</Label>
+              <Input id="deal-value" type="number" value={value} onChange={(e) => { setValueTouched(true); setValue(e.target.value); }} placeholder="0" />
             </div>
           </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
