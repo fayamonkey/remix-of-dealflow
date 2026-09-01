@@ -70,6 +70,9 @@ export function useCreateDeal() {
       probability?: number;
       close_date?: string | null;
       notes?: string | null;
+      offer_type?: string | null;
+      seats?: number | null;
+
     }) => {
       const { data, error } = await supabase.from("deals").insert(deal).select().single();
       if (error) throw error;
