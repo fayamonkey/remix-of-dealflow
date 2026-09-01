@@ -61,45 +61,59 @@ export default function Forecast() {
 
   return (
     <div className="space-y-6">
-      <PageBanner title="Forecast" description="Revenue projections based on your pipeline." />
+      <PageBanner title="Forecast" description="Umsatzprognose aus Deals und aus wiederkehrenden Mitgliedschaften." />
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        {summaryCards.map((s) => (
-          <Card key={s.label} className="relative overflow-hidden">
-            <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: s.color }} />
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{s.label}</CardTitle>
-              <s.icon className="h-4 w-4" style={{ color: s.color }} />
+      <Tabs defaultValue="membership">
+        <TabsList>
+          <TabsTrigger value="membership">Mitgliedschaften</TabsTrigger>
+          <TabsTrigger value="deals">Deals</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="membership" className="mt-6">
+          <MembershipForecast />
+        </TabsContent>
+
+        <TabsContent value="deals" className="mt-6 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {summaryCards.map((s) => (
+              <Card key={s.label} className="relative overflow-hidden">
+                <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: s.color }} />
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">{s.label}</CardTitle>
+                  <s.icon className="h-4 w-4" style={{ color: s.color }} />
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? <Skeleton className="h-8 w-24" /> : <div className="text-2xl font-bold">{s.value}</div>}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" /> Monatliche Umsatzprojektion
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              {isLoading ? <Skeleton className="h-8 w-24" /> : <div className="text-2xl font-bold">{s.value}</div>}
+              {isLoading ? (
+                <Skeleton className="h-72 w-full" />
+              ) : (
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={data?.chartData}>
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                    <Tooltip formatter={(v: number) => formatCurrency(v)} />
+                    <Bar dataKey="weighted" name="Gewichtet" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="total" name="Gesamt" fill="hsl(220, 16%, 83%)" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" /> Monthly Revenue Projection
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <Skeleton className="h-72 w-full" />
-          ) : (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data?.chartData}>
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip formatter={(v: number) => formatCurrency(v)} />
-                <Bar dataKey="weighted" name="Weighted" fill="hsl(245, 58%, 51%)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="total" name="Total" fill="hsl(220, 16%, 83%)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
+
