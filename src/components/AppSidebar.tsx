@@ -33,6 +33,8 @@ import { AIALogo } from "@/components/AIALogo";
 
 const mainNav = [
   { title: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
+  { title: "Members", icon: GraduationCap, to: "/members" },
+  { title: "Programs", icon: Layers, to: "/programs" },
   { title: "Pipeline", icon: Kanban, to: "/pipeline" },
   { title: "Contacts", icon: Users, to: "/contacts" },
   { title: "Companies", icon: Building2, to: "/companies" },
