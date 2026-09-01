@@ -116,6 +116,64 @@ export function ScenarioPlanner() {
       </div>
 
       <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Gespeicherte Szenarien</CardTitle>
+          <CardDescription>Szenario benennen, speichern und später wieder aufrufen.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <div className="space-y-1.5 flex-1 min-w-0">
+            <Label>Name</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. 300 Kohorten-Mitglieder" />
+          </div>
+          <Button
+            className="rounded-full shrink-0"
+            disabled={!name.trim() || saveScenario.isPending}
+            onClick={() =>
+              saveScenario.mutate(
+                { id: currentId ?? undefined, name: name.trim(), rows, months },
+                { onSuccess: (id) => setCurrentId(id) },
+              )
+            }
+          >
+            <Save className="h-4 w-4 mr-1.5" /> {currentId ? "Aktualisieren" : "Speichern"}
+          </Button>
+          {currentId && (
+            <Button
+              variant="secondary"
+              className="rounded-full shrink-0"
+              onClick={() => saveScenario.mutate({ name: `${name.trim()} (Kopie)`, rows, months }, { onSuccess: (id) => { setCurrentId(id); setName(`${name.trim()} (Kopie)`); } })}
+            >
+              Als neues speichern
+            </Button>
+          )}
+          <div className="space-y-1.5 sm:w-64 shrink-0">
+            <Label>Laden</Label>
+            <Select value={currentId ?? ""} onValueChange={loadScenario}>
+              <SelectTrigger>
+                <SelectValue placeholder={scenarios.length ? "Szenario wählen" : "Noch keine gespeichert"} />
+              </SelectTrigger>
+              <SelectContent>
+                {scenarios.map((s) => (
+                  <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          {currentId && (
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Szenario löschen"
+              className="shrink-0"
+              onClick={() => deleteScenario.mutate(currentId, { onSuccess: () => { setCurrentId(null); setName(""); } })}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Szenario-Rechner</CardTitle>
@@ -124,7 +182,7 @@ export function ScenarioPlanner() {
               Preise kommen aus der zentralen Preisliste (Einstellungen → Preise) und lassen sich hier fürs Szenario überschreiben.
             </CardDescription>
           </div>
-          <Button variant="secondary" className="rounded-full shrink-0" onClick={() => setRows(defaultRows(prices))}>
+          <Button variant="secondary" className="rounded-full shrink-0" onClick={() => { setRows(defaultRows(prices)); setCurrentId(null); setName(""); }}>
             <RotateCcw className="h-4 w-4 mr-1.5" /> Zurücksetzen
           </Button>
         </CardHeader>
