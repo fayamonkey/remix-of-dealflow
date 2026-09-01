@@ -206,6 +206,25 @@ export default function CalendarView() {
             </div>
           )}
 
+          {sidebarItems.sessions.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase text-muted-foreground tracking-wider">Programm-Termine</h3>
+              {sidebarItems.sessions.map((s) => (
+                <div key={s.id} className="rounded-md border p-3 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                      {s.starts_at ? format(new Date(s.starts_at), "HH:mm") : "—"}
+                    </Badge>
+                    <span className="text-sm font-medium truncate">{s.title}</span>
+                  </div>
+                  {(s.run as { name?: string } | null)?.name && (
+                    <p className="text-xs text-muted-foreground truncate">{(s.run as { name?: string }).name}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           {sidebarItems.activities.length > 0 && (
             <div className="space-y-2">
               <h3 className="text-xs font-medium uppercase text-muted-foreground tracking-wider">Activities</h3>
