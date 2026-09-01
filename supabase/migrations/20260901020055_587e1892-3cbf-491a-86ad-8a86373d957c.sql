@@ -1,0 +1,1 @@
+ALTER TYPE public.price_tier ADD VALUE IF NOT EXISTS 'workshop_standalone_2300';
