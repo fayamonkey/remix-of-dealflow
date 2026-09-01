@@ -12,6 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { OFFERS, OFFER_TYPES, suggestedAmount, type OfferType } from "@/lib/offers";
+
 
 interface CreateDealDialogProps {
   open: boolean;
