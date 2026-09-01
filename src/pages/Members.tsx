@@ -177,6 +177,11 @@ export default function Members() {
                       ))}
                     </div>
                   </TableCell>
+                  <TableCell>
+                    {(() => { const ms = membershipOf(m); return (
+                      <Badge variant={ms.variant} className="text-xs whitespace-nowrap">{ms.label}</Badge>
+                    ); })()}
+                  </TableCell>
                   <TableCell className="hidden lg:table-cell text-muted-foreground text-sm">{PRICE_LABELS[m.current_price_tier]}</TableCell>
                   <TableCell className="hidden lg:table-cell">
                     <div className="flex gap-1">
