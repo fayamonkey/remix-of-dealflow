@@ -15,6 +15,8 @@ import {
   CheckSquare,
   CalendarDays,
   ExternalLink,
+  GraduationCap,
+  Layers,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
