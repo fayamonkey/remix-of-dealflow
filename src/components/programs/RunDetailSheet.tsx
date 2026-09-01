@@ -133,19 +133,35 @@ export function RunDetailSheet({ run, onOpenChange }: Props) {
             </div>
             <div className="space-y-2">
               <Label>Kampagne</Label>
-              <Input defaultValue={run.campaign ?? ""} onBlur={(e) => patch({ campaign: e.target.value || null })} />
+              <Input key={`camp-${run.id}`} defaultValue={run.campaign ?? ""} onBlur={(e) => patch({ campaign: e.target.value || null })} />
             </div>
             <div className="space-y-2">
               <Label>Trainer</Label>
-              <Input defaultValue={run.lead_trainer ?? ""} onBlur={(e) => patch({ lead_trainer: e.target.value || null })} />
+              <Input key={`trainer-${run.id}`} defaultValue={run.lead_trainer ?? ""} onBlur={(e) => patch({ lead_trainer: e.target.value || null })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Partner</Label>
+              <Input key={`partner-${run.id}`} defaultValue={run.partner ?? ""} onBlur={(e) => patch({ partner: e.target.value || null })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Zeitzone</Label>
+              <Input key={`tz-${run.id}`} defaultValue={run.timezone ?? ""} onBlur={(e) => e.target.value.trim() && patch({ timezone: e.target.value.trim() })} placeholder="Europe/Berlin" />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Meeting-Link</Label>
-              <Input defaultValue={run.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
+              <Input key={`meet-${run.id}`} defaultValue={run.meeting_url ?? ""} onBlur={(e) => patch({ meeting_url: e.target.value || null })} placeholder="https://..." />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label>Aufzeichnung</Label>
-              <Input defaultValue={run.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+              <Input key={`rec-${run.id}`} defaultValue={run.recording_url ?? ""} onBlur={(e) => patch({ recording_url: e.target.value || null })} placeholder="https://..." />
+            </div>
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Community-Bereich</Label>
+              <Input key={`comm-${run.id}`} defaultValue={run.community_area ?? ""} onBlur={(e) => patch({ community_area: e.target.value || null })} />
+            </div>
+            <div className="space-y-2 sm:col-span-2">
+              <Label>Notizen</Label>
+              <Textarea key={`notes-${run.id}`} defaultValue={run.notes ?? ""} onBlur={(e) => patch({ notes: e.target.value || null })} rows={3} />
             </div>
           </div>
 
