@@ -148,6 +148,7 @@ export default function CalendarView() {
                           {items.activities.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />}
                           {items.deals.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-green-500" />}
                           {items.tasks.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
+                          {items.sessions.length > 0 && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
                         </div>
                       )}
                     </button>
