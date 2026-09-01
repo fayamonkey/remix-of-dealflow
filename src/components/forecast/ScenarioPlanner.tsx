@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { addMonths, format, startOfMonth } from "date-fns";
 import { de } from "date-fns/locale";
-import { Plus, RotateCcw, Trash2, Save, FolderOpen } from "lucide-react";
+import { Plus, RotateCcw, Trash2, Save } from "lucide-react";
 import { useScenarios, useSaveScenario, useDeleteScenario } from "@/hooks/useScenarios";
 import { formatEuro, PRICE_LABELS, type PriceTier } from "@/lib/programs";
 import { usePricing } from "@/hooks/usePricing";
