@@ -39,11 +39,17 @@
 
     --radius: 0.625rem;
 
+    /* Golem Karrierewelt brand */
+    --golem-indigo: 243 72% 58%;
+    --golem-red: 356 78% 52%;
+    --golem-dark: 0 0% 24%;
+
     /* Landing page surface colors */
     --surface-mint: 170 25% 94%;
     --surface-mint-strong: 170 32% 82%;
     --teal-data: 170 50% 45%;
     --teal-dark: 170 15% 15%;
+
 
     /* Pipeline stage colors */
     --stage-prospect: 210 70% 55%;
