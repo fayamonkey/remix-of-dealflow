@@ -145,9 +145,9 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Company</Label>
+              <Label>Firma</Label>
               <Select value={companyId} onValueChange={setCompanyId}>
-                <SelectTrigger><SelectValue placeholder="Select..." /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder="Auswählen..." /></SelectTrigger>
                 <SelectContent>
                   {companies?.map((c) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
@@ -156,9 +156,9 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Contact</Label>
+              <Label>Ansprechpartner</Label>
               <Select value={contactId} onValueChange={setContactId}>
-                <SelectTrigger><SelectValue placeholder="Select..." /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder="Auswählen..." /></SelectTrigger>
                 <SelectContent>
                   {contacts?.map((c) => (
                     <SelectItem key={c.id} value={c.id}>{c.first_name} {c.last_name}</SelectItem>
@@ -170,25 +170,26 @@ export function CreateDealDialog({ open, onOpenChange, pipelineId, stages, defau
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="deal-probability">Probability (%)</Label>
+              <Label htmlFor="deal-probability">Wahrscheinlichkeit (%)</Label>
               <Input id="deal-probability" type="number" min="0" max="100" value={probability} onChange={(e) => setProbability(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="deal-close-date">Close Date</Label>
+              <Label htmlFor="deal-close-date">Geplanter Abschluss</Label>
               <Input id="deal-close-date" type="date" value={closeDate} onChange={(e) => setCloseDate(e.target.value)} />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="deal-notes">Notes</Label>
-            <Textarea id="deal-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Additional details..." rows={3} maxLength={2000} />
+            <Label htmlFor="deal-notes">Notizen</Label>
+            <Textarea id="deal-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Kontext, Bedarf, offene Punkte..." rows={3} maxLength={2000} />
           </div>
 
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
             <Button type="submit" disabled={createDeal.isPending}>
-              {createDeal.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Deal"}
+              {createDeal.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Anfrage anlegen"}
             </Button>
+
           </div>
         </form>
       </DialogContent>
