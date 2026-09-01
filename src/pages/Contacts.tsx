@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useContacts, Contact, useDeleteContact } from "@/hooks/useContacts";
 import { CreateContactDialog } from "@/components/contacts/CreateContactDialog";
 import { ContactDetailSheet } from "@/components/contacts/ContactDetailSheet";
@@ -12,7 +14,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { PageBanner } from "@/components/PageBanner";
-import { Search, Plus, Users } from "lucide-react";
+import { Search, Plus, Users, ArrowUpRight } from "lucide-react";
+
+type Role = { label: string; variant: "default" | "secondary" | "outline"; member: boolean };
+
+/** Rolle einer Person: Programm-Teilnahme schlägt Firmenkontakt schlägt Lead. */
+function roleOf(contact: Contact, enrolled: Map<string, boolean>): Role {
+  const isMember = enrolled.get(contact.id);
+  if (isMember === true) return { label: "Mitglied", variant: "default", member: true };
+  if (isMember === false) return { label: "Teilnehmer", variant: "secondary", member: true };
+  if (contact.company_id) return { label: "B2B-Kontakt", variant: "outline", member: false };
+  return { label: "Lead", variant: "outline", member: false };
+}
+
 
 export default function Contacts() {
   const [search, setSearch] = useState("");
