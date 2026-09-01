@@ -1753,6 +1753,7 @@ export type Database = {
         | "company_1_690"
         | "company_2_990"
         | "company_5_1900"
+        | "workshop_standalone_2300"
       program_category:
         | "free_workshop"
         | "bootcamp"
@@ -1947,6 +1948,7 @@ export const Constants = {
         "company_1_690",
         "company_2_990",
         "company_5_1900",
+        "workshop_standalone_2300",
       ],
       program_category: [
         "free_workshop",

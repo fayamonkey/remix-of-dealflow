@@ -47,6 +47,7 @@ export const PRICE_LABELS: Record<PriceTier, string> = {
   company_1_690: "Firma 1 Seat · 690 €",
   company_2_990: "Firma 2 Seats · 990 €",
   company_5_1900: "Firma 5 Seats · 1.900 €",
+  workshop_standalone_2300: "KI-Firma Workshop standalone · 2.300 €",
 };
 
 export const PRICE_AMOUNTS: Record<PriceTier, number> = {
@@ -57,7 +58,9 @@ export const PRICE_AMOUNTS: Record<PriceTier, number> = {
   company_1_690: 690,
   company_2_990: 990,
   company_5_1900: 1900,
+  workshop_standalone_2300: 2300,
 };
+
 
 export const PROGRAM_TYPES = Object.keys(PROGRAM_LABELS) as ProgramType[];
 export const ENROLLMENT_STATUSES = Object.keys(STATUS_LABELS) as EnrollmentStatus[];
