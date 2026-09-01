@@ -27,14 +27,24 @@ export function DealCard({ deal, stageColor, onClick }: DealCardProps) {
           <h4 className="text-sm font-semibold leading-tight">{deal.title}</h4>
           <GripVertical className="h-4 w-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
+        {offerLabel(deal.offer_type) && (
+          <p className="text-[11px] uppercase tracking-wide text-primary">{offerLabel(deal.offer_type)}</p>
+        )}
         {deal.companies && (
           <p className="text-xs text-muted-foreground">{deal.companies.name}</p>
         )}
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           {deal.value > 0 && (
             <span className="flex items-center gap-1 font-medium text-foreground">
-              <DollarSign className="h-3 w-3" />
+              <Euro className="h-3 w-3" />
               {formatCurrency(deal.value)}
+              {deal.offer_type && OFFERS[deal.offer_type as keyof typeof OFFERS]?.recurring ? " /Mon." : ""}
+            </span>
+          )}
+          {(deal.seats ?? 0) > 1 && (
+            <span className="flex items-center gap-1">
+              <Users className="h-3 w-3" />
+              {deal.seats}
             </span>
           )}
           {deal.close_date && (
@@ -44,6 +54,7 @@ export function DealCard({ deal, stageColor, onClick }: DealCardProps) {
             </span>
           )}
         </div>
+
         {deal.contacts && (
           <p className="text-xs text-muted-foreground">
             {deal.contacts.first_name} {deal.contacts.last_name}
