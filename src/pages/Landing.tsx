@@ -18,6 +18,29 @@ function GoldPill({ children }: { children: React.ReactNode }) {
   );
 }
 
+const TEAM = [
+  { name: "Minho", role: "Sales & CRM", active: true },
+  { name: "Amina", role: "Research & Strategy" },
+  { name: "Rafael", role: "Content & Editorial" },
+  { name: "Camila", role: "Web & Digital Presence" },
+  { name: "Nora", role: "Operations" },
+  { name: "Jonas", role: "Finance & Commercial" },
+];
+
+const FLOW = [
+  { t: "Say what needs doing.", b: "A voice message, a photo, a document. No prompt engineering required." },
+  { t: "Mira takes care of it.", b: "She organises the right specialists behind the scenes — Minho updates the pipeline here." },
+  { t: "You decide.", b: "Work comes back finished or ready for your approval. The score stays in your CRM." },
+];
+
+const STARTER_KITS = [
+  { t: "Tradespeople", b: "Your digital job office. Finish when the job is done — not the paperwork." },
+  { t: "Site Managers", b: "Your digital site office. Leave the site with the day already documented." },
+  { t: "Business Owners", b: "Your digital execution office. Decide, and the work begins." },
+  { t: "Truck Operators", b: "Your digital dispatch office. One truck, a whole company behind it." },
+  { t: "Location Managers", b: "Your digital operations office. Operations today, growth tomorrow." },
+];
+
 const MANIFESTO = [
   { k: "Decide", v: "The best sales tool in the world can't save an undecided mind. Decide to win first — the CRM is just where you keep score." },
   { k: "Execute", v: "Massive action beats perfect strategy. Every day. Log the call. Move the deal. Send the follow-up. Stack the reps." },
