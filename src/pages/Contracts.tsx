@@ -296,7 +296,7 @@ export default function Contracts() {
                               { package_id: p.id, contact_id: v },
                               {
                                 onSuccess: () => { setSeatFor(null); toast({ title: "Platz zugewiesen" }); },
-                                onError: (e: unknown) =>
+                                onError: () =>
                                   toast({
                                     title: "Zuweisung nicht möglich",
                                     description: free <= 0 ? "Das Paket hat keine freien Plätze mehr." : undefined,
