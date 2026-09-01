@@ -12,6 +12,9 @@ import { useEnrollments, type Enrollment } from "@/hooks/useEnrollments";
 import { CreateEnrollmentDialog } from "@/components/programs/CreateEnrollmentDialog";
 import { EnrollmentDetailSheet } from "@/components/programs/EnrollmentDetailSheet";
 import { GolemImportDialog } from "@/components/programs/GolemImportDialog";
+import { RunsTab } from "@/components/programs/RunsTab";
+import { TemplatesTab } from "@/components/programs/TemplatesTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ACCESS_LABELS, ENROLLMENT_STATUSES, PAYMENT_LABELS, PRICE_LABELS, PROGRAM_LABELS,
   PROGRAM_TYPES, STATUS_LABELS, formatEuro, statusVariant,
