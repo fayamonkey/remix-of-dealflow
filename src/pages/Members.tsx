@@ -14,7 +14,7 @@ import { GolemImportDialog } from "@/components/programs/GolemImportDialog";
 import { MemberDetailSheet } from "@/components/programs/MemberDetailSheet";
 import {
   PRICE_LABELS, PROGRAM_LABELS, STATUS_LABELS, formatEuro, statusVariant,
-  type PriceTier, type ProgramType, type EnrollmentStatus,
+  type PriceTier, type ProgramType, type EnrollmentStatus, type PaymentStatus,
 } from "@/lib/programs";
 
 export interface MemberRow {
@@ -32,8 +32,24 @@ export interface MemberRow {
   member_number: number | null;
   current_price_tier: PriceTier;
   companies?: { id: string; name: string } | null;
-  enrollments?: { id: string; program_type: ProgramType; status: EnrollmentStatus; monthly_amount: number }[];
+  enrollments?: { id: string; program_type: ProgramType; status: EnrollmentStatus; monthly_amount: number; payment_status: PaymentStatus }[];
 }
+
+type Membership =
+  | { kind: "paid"; label: string; variant: "default" }
+  | { kind: "pending"; label: string; variant: "secondary" }
+  | { kind: "free"; label: string; variant: "outline" };
+
+function membershipOf(m: MemberRow): Membership {
+  const paying = (m.enrollments ?? []).filter((e) => e.program_type !== "free_workshop");
+  const paid = paying.find((e) => e.payment_status === "paid");
+  if (paid) return { kind: "paid", label: `Zahlend · ${PROGRAM_LABELS[paid.program_type]} · ${formatEuro(Number(paid.monthly_amount))}`, variant: "default" };
+  const pending = paying.find((e) => e.payment_status === "pending");
+  if (pending) return { kind: "pending", label: `Zahlung offen · ${PROGRAM_LABELS[pending.program_type]}`, variant: "secondary" };
+  if (paying.length) return { kind: "free", label: "Noch nicht bezahlt", variant: "outline" };
+  return { kind: "free", label: "Gratis-Teilnehmer", variant: "outline" };
+}
+
 
 type Filter = "all" | "cohort" | "bootcamp" | "workshop" | "foundation" | "no_consent";
 
