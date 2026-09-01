@@ -1,6 +1,8 @@
 import { Deal } from "@/hooks/useDeals";
 import { formatCurrency, formatDate } from "@/lib/formatters";
-import { Calendar, DollarSign, GripVertical } from "lucide-react";
+import { OFFERS, offerLabel } from "@/lib/offers";
+import { Calendar, Euro, GripVertical, Users } from "lucide-react";
+
 
 interface DealCardProps {
   deal: Deal;
