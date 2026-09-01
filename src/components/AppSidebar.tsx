@@ -15,6 +15,8 @@ import {
   CheckSquare,
   CalendarDays,
   ExternalLink,
+  GraduationCap,
+  Layers,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -33,6 +35,8 @@ import { AIALogo } from "@/components/AIALogo";
 
 const mainNav = [
   { title: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
+  { title: "Members", icon: GraduationCap, to: "/members" },
+  { title: "Programs", icon: Layers, to: "/programs" },
   { title: "Pipeline", icon: Kanban, to: "/pipeline" },
   { title: "Contacts", icon: Users, to: "/contacts" },
   { title: "Companies", icon: Building2, to: "/companies" },

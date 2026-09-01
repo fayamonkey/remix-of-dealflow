@@ -20,6 +20,8 @@ import Settings from "./pages/Settings";
 import DataImportExport from "./pages/DataImportExport";
 import Tasks from "./pages/Tasks";
 import CalendarView from "./pages/CalendarView";
+import Members from "./pages/Members";
+import Programs from "./pages/Programs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
                 <Route path="/dashboard" element={<Index />} />
                 <Route path="/pipeline" element={<Pipeline />} />
                 <Route path="/contacts" element={<Contacts />} />
+                <Route path="/members" element={<Members />} />
+                <Route path="/programs" element={<Programs />} />
                 <Route path="/companies" element={<Companies />} />
                 <Route path="/activities" element={<Activities />} />
                 <Route path="/forecast" element={<Forecast />} />

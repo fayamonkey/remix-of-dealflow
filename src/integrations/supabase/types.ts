@@ -94,41 +94,68 @@ export type Database = {
       }
       contacts: {
         Row: {
+          campaign: string | null
           company_id: string | null
+          consent_at: string | null
+          consent_marketing: boolean
+          consent_recording: boolean
           created_at: string
           created_by: string
+          current_price_tier: Database["public"]["Enums"]["price_tier"]
           email: string | null
           first_name: string
           id: string
+          is_foundation_member: boolean
+          language: string
           last_name: string
+          member_number: number | null
           phone: string | null
           position: string | null
+          source: string | null
           tags: string[] | null
           updated_at: string
         }
         Insert: {
+          campaign?: string | null
           company_id?: string | null
+          consent_at?: string | null
+          consent_marketing?: boolean
+          consent_recording?: boolean
           created_at?: string
           created_by: string
+          current_price_tier?: Database["public"]["Enums"]["price_tier"]
           email?: string | null
           first_name: string
           id?: string
+          is_foundation_member?: boolean
+          language?: string
           last_name: string
+          member_number?: number | null
           phone?: string | null
           position?: string | null
+          source?: string | null
           tags?: string[] | null
           updated_at?: string
         }
         Update: {
+          campaign?: string | null
           company_id?: string | null
+          consent_at?: string | null
+          consent_marketing?: boolean
+          consent_recording?: boolean
           created_at?: string
           created_by?: string
+          current_price_tier?: Database["public"]["Enums"]["price_tier"]
           email?: string | null
           first_name?: string
           id?: string
+          is_foundation_member?: boolean
+          language?: string
           last_name?: string
+          member_number?: number | null
           phone?: string | null
           position?: string | null
+          source?: string | null
           tags?: string[] | null
           updated_at?: string
         }
@@ -251,6 +278,218 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      enrollment_steps: {
+        Row: {
+          created_at: string
+          done: boolean
+          done_at: string | null
+          due_date: string | null
+          enrollment_id: string
+          id: string
+          name: string
+          position: number
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          done_at?: string | null
+          due_date?: string | null
+          enrollment_id: string
+          id?: string
+          name: string
+          position?: number
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          done_at?: string | null
+          due_date?: string | null
+          enrollment_id?: string
+          id?: string
+          name?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollment_steps_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "enrollments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enrollments: {
+        Row: {
+          access_status: Database["public"]["Enums"]["access_status"]
+          cancel_date: string | null
+          company_id: string | null
+          contact_id: string
+          created_at: string
+          created_by: string
+          external_ref: string | null
+          funnel_source: string | null
+          golem_campaign: string | null
+          id: string
+          monthly_amount: number
+          next_step: string | null
+          notes: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          price_tier: Database["public"]["Enums"]["price_tier"]
+          program_type: Database["public"]["Enums"]["program_type"]
+          seats: number
+          start_date: string | null
+          status: Database["public"]["Enums"]["enrollment_status"]
+          updated_at: string
+          workshop_date: string | null
+        }
+        Insert: {
+          access_status?: Database["public"]["Enums"]["access_status"]
+          cancel_date?: string | null
+          company_id?: string | null
+          contact_id: string
+          created_at?: string
+          created_by: string
+          external_ref?: string | null
+          funnel_source?: string | null
+          golem_campaign?: string | null
+          id?: string
+          monthly_amount?: number
+          next_step?: string | null
+          notes?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          price_tier?: Database["public"]["Enums"]["price_tier"]
+          program_type: Database["public"]["Enums"]["program_type"]
+          seats?: number
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          updated_at?: string
+          workshop_date?: string | null
+        }
+        Update: {
+          access_status?: Database["public"]["Enums"]["access_status"]
+          cancel_date?: string | null
+          company_id?: string | null
+          contact_id?: string
+          created_at?: string
+          created_by?: string
+          external_ref?: string | null
+          funnel_source?: string | null
+          golem_campaign?: string | null
+          id?: string
+          monthly_amount?: number
+          next_step?: string | null
+          notes?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          price_tier?: Database["public"]["Enums"]["price_tier"]
+          program_type?: Database["public"]["Enums"]["program_type"]
+          seats?: number
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          updated_at?: string
+          workshop_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_templates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          offset_days: number
+          position: number
+          program_type: Database["public"]["Enums"]["program_type"]
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          offset_days?: number
+          position?: number
+          program_type: Database["public"]["Enums"]["program_type"]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          offset_days?: number
+          position?: number
+          program_type?: Database["public"]["Enums"]["program_type"]
+        }
+        Relationships: []
+      }
+      member_events: {
+        Row: {
+          contact_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enrollment_id: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          occurred_at: string
+          title: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enrollment_id?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          title: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enrollment_id?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_events_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "enrollments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notifications: {
         Row: {
@@ -521,6 +760,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_view_record: { Args: { _owner: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -532,11 +772,35 @@ export type Database = {
         Args: { _target_user_id: string; _user_id: string }
         Returns: boolean
       }
+      price_for_tier: {
+        Args: { _tier: Database["public"]["Enums"]["price_tier"] }
+        Returns: number
+      }
       seed_default_pipeline: { Args: { p_user_id: string }; Returns: string }
     }
     Enums: {
+      access_status: "none" | "pending" | "granted" | "revoked"
       activity_type: "call" | "email" | "meeting" | "note"
       app_role: "admin" | "manager" | "rep"
+      enrollment_status:
+        | "interested"
+        | "registered"
+        | "attended"
+        | "no_show"
+        | "completed"
+        | "active"
+        | "paused"
+        | "cancelled"
+      payment_status: "none" | "pending" | "paid" | "refunded" | "failed"
+      price_tier:
+        | "none"
+        | "foundation_490"
+        | "early_590"
+        | "standard_690"
+        | "company_1_690"
+        | "company_2_990"
+        | "company_5_1900"
+      program_type: "free_workshop" | "bootcamp" | "cohort" | "company"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -664,8 +928,30 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      access_status: ["none", "pending", "granted", "revoked"],
       activity_type: ["call", "email", "meeting", "note"],
       app_role: ["admin", "manager", "rep"],
+      enrollment_status: [
+        "interested",
+        "registered",
+        "attended",
+        "no_show",
+        "completed",
+        "active",
+        "paused",
+        "cancelled",
+      ],
+      payment_status: ["none", "pending", "paid", "refunded", "failed"],
+      price_tier: [
+        "none",
+        "foundation_490",
+        "early_590",
+        "standard_690",
+        "company_1_690",
+        "company_2_990",
+        "company_5_1900",
+      ],
+      program_type: ["free_workshop", "bootcamp", "cohort", "company"],
     },
   },
 } as const
