@@ -668,6 +668,39 @@ export type Database = {
           },
         ]
       }
+      forecast_scenarios: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          months: number
+          name: string
+          rows: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          months?: number
+          name: string
+          rows?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          months?: number
+          name?: string
+          rows?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       import_batches: {
         Row: {
           campaign: string | null
