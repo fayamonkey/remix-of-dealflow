@@ -22,6 +22,8 @@ import Tasks from "./pages/Tasks";
 import CalendarView from "./pages/CalendarView";
 import Members from "./pages/Members";
 import Programs from "./pages/Programs";
+import ContractsPage from "./pages/Contracts";
+import OpsInbox from "./pages/OpsInbox";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
