@@ -76,14 +76,21 @@ export default function CalendarView() {
         if (isAfter(dt, today) || isSameDay(dt, today)) upcomingDates.push(dt);
       }
     });
+    sessions?.forEach((s) => {
+      if (s.starts_at) {
+        const dt = new Date(s.starts_at);
+        if (isAfter(dt, today) || isSameDay(dt, today)) upcomingDates.push(dt);
+      }
+    });
 
     if (upcomingDates.length === 0) return today;
     upcomingDates.sort((a, b) => a.getTime() - b.getTime());
     return upcomingDates[0];
-  }, [selectedDate, activities, deals, tasks]);
+  }, [selectedDate, activities, deals, tasks, sessions]);
 
   const sidebarItems = getItems(autoSelectedDate);
-  const hasSidebarItems = sidebarItems.activities.length > 0 || sidebarItems.deals.length > 0 || sidebarItems.tasks.length > 0;
+  const hasSidebarItems = sidebarItems.activities.length > 0 || sidebarItems.deals.length > 0 || sidebarItems.tasks.length > 0 || sidebarItems.sessions.length > 0;
+
 
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
